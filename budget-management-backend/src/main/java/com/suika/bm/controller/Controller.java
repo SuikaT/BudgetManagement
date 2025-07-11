@@ -18,8 +18,6 @@ public class Controller {
 
     @GetMapping("test")
     public ResponseEntity<String> test() {
-        logger.info("TEST");
-        System.out.println("HEYW");
-        return ResponseEntity.ok("ITS A TEST");
+        return ResponseEntity.ok("TEST");
     }
 }
