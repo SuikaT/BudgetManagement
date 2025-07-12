@@ -21,6 +21,6 @@ public enum ExpenseCategory {
     TRANSPORT,
     GAZ,
     CAR,
-    OTHER_PURCHASES;
+    OTHER_PURCHASES
 
 }

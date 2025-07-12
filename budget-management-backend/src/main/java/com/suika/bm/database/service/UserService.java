@@ -1,12 +1,10 @@
 package com.suika.bm.database.service;
 
-import com.suika.bm.database.entity.UserEntity;
 import com.suika.bm.database.repository.UserRepository;
 import com.suika.bm.model.network.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

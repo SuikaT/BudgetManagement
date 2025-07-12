@@ -2,7 +2,6 @@ package com.suika.bm.model.product;
 
 import com.suika.bm.database.entity.ExpenseEntity;
 import com.suika.bm.model.enums.ExpenseCategory;
-import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
