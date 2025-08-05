@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@Table(name = "expense")
 public class ExpenseEntity {
 
     @Id
@@ -21,5 +22,5 @@ public class ExpenseEntity {
     @Enumerated(EnumType.STRING)
     ExpenseCategory category;
 
-    LocalDateTime dateTime;
+    LocalDateTime expenseDate;
 }

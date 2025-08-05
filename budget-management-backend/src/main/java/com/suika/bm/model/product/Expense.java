@@ -2,9 +2,15 @@ package com.suika.bm.model.product;
 
 import com.suika.bm.database.entity.ExpenseEntity;
 import com.suika.bm.model.enums.ExpenseCategory;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class Expense {
 
     Long id;
@@ -13,7 +19,7 @@ public class Expense {
 
     ExpenseCategory category;
 
-    LocalDateTime dateTime;
+    LocalDateTime expenseDate;
 
     public Expense(ExpenseEntity entity) {
         if(entity == null) return;
@@ -21,6 +27,6 @@ public class Expense {
         this.id = entity.getId();
         this.amount = entity.getAmount();
         this.category = entity.getCategory();
-        this.dateTime = entity.getDateTime();
+        this.expenseDate = entity.getExpenseDate();
     }
 }

@@ -2,13 +2,18 @@ package com.suika.bm.controller;
 
 
 import com.suika.bm.database.entity.UserEntity;
+import com.suika.bm.database.service.ExpenseService;
 import com.suika.bm.database.service.UserService;
+import com.suika.bm.model.enums.ExpenseCategory;
 import com.suika.bm.model.network.User;
+import com.suika.bm.model.product.Expense;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -20,6 +25,9 @@ public class Controller {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ExpenseService expenseService;
+
     @GetMapping("test")
     public UserEntity test() {
         UserEntity user = new UserEntity();
@@ -28,6 +36,7 @@ public class Controller {
         user.setEmail("test");
         user.setFirstname("test");
         user.setLastname("test");
+
 
         return user;
     }
@@ -44,5 +53,12 @@ public class Controller {
         return userService.getUserByEmail(email)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("expensesByCategory")
+    public ResponseEntity<List<Expense>> getExpensesByCategory() {
+        List<Expense> expenseList = expenseService.getExpensesByCategory(ExpenseCategory.HEALTH);
+
+        return ResponseEntity.ok(expenseList);
     }
 }
