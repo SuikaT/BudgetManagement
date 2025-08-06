@@ -1,42 +1,47 @@
 import { Injectable } from "@angular/core";
 import { ThemeEnum } from "../model/enums/theme";
+import { Preferences } from "@capacitor/preferences";
 
 @Injectable({
-	providedIn: "root",
+    providedIn: "root",
 })
 export class ThemeService {
-	constructor() {}
+    constructor() {}
 
-	toggleTheme() {
-		if (document.body.classList.contains(ThemeEnum.LIGHT)) {
-			this.applyTheme(ThemeEnum.DARK);
-		} else {
-			this.applyTheme(ThemeEnum.LIGHT);
-		}
-	}
+    toggleTheme() {
+        if (document.body.classList.contains(ThemeEnum.LIGHT)) {
+            this.applyTheme(ThemeEnum.DARK);
+        } else {
+            this.applyTheme(ThemeEnum.LIGHT);
+        }
+    }
 
-	applyTheme(theme: ThemeEnum) {
-		if (theme == ThemeEnum.DARK) {
-			document.body.classList.remove(ThemeEnum.LIGHT);
-			document.body.classList.add(ThemeEnum.DARK);
-		} else {
-			document.body.classList.remove(ThemeEnum.DARK);
-			document.body.classList.add(ThemeEnum.LIGHT);
-		}
-		// TODO save theme on user mobile
-	}
+    async applyTheme(theme: ThemeEnum) {
+        if (theme == ThemeEnum.DARK) {
+            document.body.classList.remove(ThemeEnum.LIGHT);
+            document.body.classList.add(ThemeEnum.DARK);
+        } else {
+            document.body.classList.remove(ThemeEnum.DARK);
+            document.body.classList.add(ThemeEnum.LIGHT);
+        }
 
-	initTheme() {
-        //TODO retrieve theme from mobile save
-		let theme = undefined
-		if (!this.isValidTheme(theme)) {
-			theme = ThemeEnum.LIGHT;
-		}
+        await Preferences.set({
+            key: "theme",
+            value: "dark",
+        });
+    }
 
-		this.applyTheme(theme);
-	}
+    async initTheme() {
+        let theme = (await Preferences.get({ key: "theme" })).value as ThemeEnum;
 
-	isValidTheme(theme: ThemeEnum | undefined) {
-		return theme == ThemeEnum.LIGHT || theme == ThemeEnum.DARK;
-	}
+        if (!this.isValidTheme(theme)) {
+            theme = ThemeEnum.LIGHT;
+        }
+
+        this.applyTheme(theme);
+    }
+
+    isValidTheme(theme: ThemeEnum | undefined) {
+        return theme == ThemeEnum.LIGHT || theme == ThemeEnum.DARK;
+    }
 }
