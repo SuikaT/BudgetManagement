@@ -1,0 +1,6 @@
+@mixin ngx-custom-table-overrides() {
+    & {
+        --custom-table-row-hover-background: var(--mat-sys-primary);
+        --custom-table-row-hover-color: var(--mat-sys-on-primary);
+    }
+}

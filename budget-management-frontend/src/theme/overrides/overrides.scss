@@ -1,0 +1,5 @@
+@use "theme-overrides/ngx-custom-table-override.scss" as nct;
+
+@mixin theme-overrides() {
+    @include nct.ngx-custom-table-overrides();
+}

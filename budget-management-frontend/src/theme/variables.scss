@@ -1,0 +1,27 @@
+@use "@angular/material" as mat;
+
+// Define a dark theme
+$dark-theme: (
+    color: (
+        primary: mat.$cyan-palette,
+        theme-type: dark,
+    ),
+    typography: Roboto,
+    density: 0,
+);
+
+// Define a light theme
+$light-theme: (
+    color: (
+        primary: mat.$cyan-palette,
+        theme-type: light,
+    ),
+    typography: Roboto,
+    density: 0,
+);
+
+// define variables here
+:root {
+    --contrast-background: #{mat.get-theme-color($light-theme, primary, 60)};
+    --grey: grey;
+}

@@ -1,1 +1,36 @@
+@use "@angular/material" as mat;
+@use "theme/variables.scss";
+@use "theme/overrides/overrides.scss";
+
 /* You can add global styles to this file, and also import other style files */
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+
+    background: var(--mat-sys-surface);
+    color: var(--mat-sys-on-surface);
+}
+
+router-outlet + * {
+    flex: 1;
+}
+
+.light-theme {
+    @include mat.theme(variables.$light-theme);
+    @include overrides.theme-overrides();
+}
+
+.dark-theme {
+    @include mat.theme(variables.$dark-theme);
+    @include overrides.theme-overrides();
+}
+
+* {
+    font-family: var(--mat-sys-body-medium-font);
+}
+
+/* global css */
+.contrast-background {
+    background: var(--mat-sys-primary);
+}
