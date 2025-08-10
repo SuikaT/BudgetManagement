@@ -1,15 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
+import { Expense } from "../model/interfaces/expense";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: "root",
 })
 export class StoreService {
+    constructor() {}
 
-  constructor() { }
-
-
-  
-
-
-
+    expenses$ = new BehaviorSubject<Expense[]>([]);
 }

@@ -9,5 +9,5 @@ import { Expense } from "../../../model/interfaces/expense";
 })
 export class ExpenseItemComponent {
     @Input()
-    expense!: Expense | undefined;
+    expense?: Expense;
 }

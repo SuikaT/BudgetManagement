@@ -1,0 +1,7 @@
+@mixin scroll-without-scrollbar() {
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        display: none; /* Chrome/Android WebView/iOS Safari */
+    }
+}

@@ -1,9 +1,13 @@
+@use "../../../../assets/mixins.scss";
+
 :host {
     display: flex;
     width: 100%;
 }
 
-.months {
+.menu-items {
+    @include mixins.scroll-without-scrollbar();
+
     display: flex;
     flex-direction: row-reverse;
     width: 80%;

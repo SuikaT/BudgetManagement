@@ -1,4 +1,4 @@
-<div class="months">
+<div class="menu-items">
     @for (item of menuItems; track item; let i = $index) {
         <app-menu-button [label]="item" [selected]="selectedIndex == i" (onSelect)="onSelect(i)"></app-menu-button>
     }
