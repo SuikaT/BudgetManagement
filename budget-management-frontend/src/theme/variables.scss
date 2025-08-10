@@ -3,7 +3,7 @@
 // Define a dark theme
 $dark-theme: (
     color: (
-        primary: mat.$cyan-palette,
+        primary: mat.$violet-palette,
         theme-type: dark,
     ),
     typography: Roboto,
@@ -13,7 +13,7 @@ $dark-theme: (
 // Define a light theme
 $light-theme: (
     color: (
-        primary: mat.$cyan-palette,
+        primary: mat.$blue-palette,
         theme-type: light,
     ),
     typography: Roboto,
@@ -22,6 +22,5 @@ $light-theme: (
 
 // define variables here
 :root {
-    --contrast-background: #{mat.get-theme-color($light-theme, primary, 60)};
-    --grey: grey;
+    --contrast-background: #{mat.get-theme-color($light-theme, primary, 10)};
 }

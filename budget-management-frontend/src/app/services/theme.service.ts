@@ -35,7 +35,7 @@ export class ThemeService {
         let theme = (await Preferences.get({ key: "theme" })).value as ThemeEnum;
 
         if (!this.isValidTheme(theme)) {
-            theme = ThemeEnum.LIGHT;
+            theme = ThemeEnum.DARK;
         }
 
         this.applyTheme(theme);

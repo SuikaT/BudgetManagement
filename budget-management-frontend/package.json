@@ -20,6 +20,7 @@
     "@angular/platform-browser": "^19.1.0",
     "@angular/platform-browser-dynamic": "^19.1.0",
     "@angular/router": "^19.1.0",
+    "@capacitor-community/sqlite": "^7.0.1",
     "@capacitor/android": "^7.4.2",
     "@capacitor/angular": "^2.0.3",
     "@capacitor/core": "latest",
@@ -32,6 +33,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.1.8",
+    "@angular-eslint/eslint-plugin-template": "^20.1.1",
     "@angular/cli": "^19.1.8",
     "@angular/compiler-cli": "^19.1.0",
     "@capacitor/cli": "latest",
@@ -42,6 +44,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "prettier": "^3.6.2",
     "typescript": "~5.7.2"
   }
 }
