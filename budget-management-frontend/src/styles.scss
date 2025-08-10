@@ -13,8 +13,17 @@ body {
     color: var(--mat-sys-on-surface);
 }
 
+app-root {
+    background: var(--mat-sys-inverse-on-surface);
+}
+
 router-outlet + * {
     flex: 1;
+    background: var(--mat-sys-surface);
+
+    * {
+        background: var(--mat-sys-inverse-on-surface);
+    }
 }
 
 .light-theme {
@@ -29,9 +38,4 @@ router-outlet + * {
 
 * {
     font-family: var(--mat-sys-body-medium-font);
-}
-
-/* global css */
-.contrast-background {
-    background: var(--contrast-background);
 }

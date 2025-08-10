@@ -1,6 +1,6 @@
 <button (click)="onSelect.emit()">
     <span>{{ label ?? "" }}</span>
     @if (selected) {
-        <span> {{ selected }}</span>
+        <div class="underline"></div>
     }
 </button>

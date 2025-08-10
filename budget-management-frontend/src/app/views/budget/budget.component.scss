@@ -3,6 +3,12 @@
     padding: 2rem 2rem;
     height: 6rem;
     gap: 2rem;
+    background: transparent;
+}
+
+app-budget-toolbar {
+    height: 3rem;
+    margin-bottom: 2px;
 }
 
 expense-card {

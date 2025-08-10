@@ -22,5 +22,5 @@ $light-theme: (
 
 // define variables here
 :root {
-    --contrast-background: #{mat.get-theme-color($light-theme, primary, 10)};
+    // --contrast-background: #{mat.get-theme-color($light-theme, primary, 10)};
 }

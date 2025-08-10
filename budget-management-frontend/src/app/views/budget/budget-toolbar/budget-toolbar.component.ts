@@ -19,7 +19,6 @@ export class BudgetToolbarComponent implements OnInit {
 
     ngOnInit(): void {
         this.menuItems = this.getMonthsBetween(new Date(2023, 0, 1), new Date());
-        this.selectedIndex = this.menuItems.length - 1;
     }
 
     getMonthsBetween(startDate: Date, endDate: Date): string[] {
@@ -37,8 +36,7 @@ export class BudgetToolbarComponent implements OnInit {
             current.setMonth(current.getMonth() + 1);
         }
 
-        console.log(result);
-        return result;
+        return result.reverse();
     }
 
     onSelect(index: number) {
