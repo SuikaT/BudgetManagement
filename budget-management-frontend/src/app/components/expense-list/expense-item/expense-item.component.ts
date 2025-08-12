@@ -6,6 +6,7 @@ import { Expense } from "../../../model/interfaces/expense";
     imports: [],
     templateUrl: "./expense-item.component.html",
     styleUrl: "./expense-item.component.scss",
+    standalone: true,
 })
 export class ExpenseItemComponent {
     @Input()

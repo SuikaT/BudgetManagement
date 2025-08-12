@@ -7,6 +7,7 @@ import { ExpenseItemComponent } from "./expense-item/expense-item.component";
     imports: [ExpenseItemComponent],
     templateUrl: "./expense-list.component.html",
     styleUrl: "./expense-list.component.scss",
+    standalone: true,
 })
 export class ExpenseListComponent {
     @Input()

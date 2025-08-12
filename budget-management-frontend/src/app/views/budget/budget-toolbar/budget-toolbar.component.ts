@@ -1,11 +1,13 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { MenuButtonComponent } from "../../../components/menu-button/menu-button.component";
+import { IconButtonComponent } from "suik-ui";
 
 @Component({
     selector: "app-budget-toolbar",
-    imports: [MenuButtonComponent],
+    imports: [MenuButtonComponent, IconButtonComponent],
     templateUrl: "./budget-toolbar.component.html",
     styleUrl: "./budget-toolbar.component.scss",
+    standalone: true,
 })
 export class BudgetToolbarComponent implements OnInit {
     menuItems: string[] = [];

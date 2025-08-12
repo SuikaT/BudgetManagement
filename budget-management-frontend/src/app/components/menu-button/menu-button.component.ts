@@ -5,6 +5,7 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
     imports: [],
     templateUrl: "./menu-button.component.html",
     styleUrl: "./menu-button.component.scss",
+    standalone: true,
 })
 export class MenuButtonComponent {
     @Input()

@@ -8,7 +8,8 @@
             "schematics": {
                 "@schematics/angular:component": {
                     "style": "scss",
-                    "skipTests": true
+                    "skipTests": true,
+                    "standalone": true
                 },
                 "@schematics/angular:class": {
                     "skipTests": true
@@ -104,29 +105,29 @@
         }
     },
     "schematics": {
-      "@schematics/angular:component": {
-        "type": "component"
-      },
-      "@schematics/angular:directive": {
-        "type": "directive"
-      },
-      "@schematics/angular:service": {
-        "type": "service"
-      },
-      "@schematics/angular:guard": {
-        "typeSeparator": "."
-      },
-      "@schematics/angular:interceptor": {
-        "typeSeparator": "."
-      },
-      "@schematics/angular:module": {
-        "typeSeparator": "."
-      },
-      "@schematics/angular:pipe": {
-        "typeSeparator": "."
-      },
-      "@schematics/angular:resolver": {
-        "typeSeparator": "."
-      }
+        "@schematics/angular:component": {
+            "type": "component"
+        },
+        "@schematics/angular:directive": {
+            "type": "directive"
+        },
+        "@schematics/angular:service": {
+            "type": "service"
+        },
+        "@schematics/angular:guard": {
+            "typeSeparator": "."
+        },
+        "@schematics/angular:interceptor": {
+            "typeSeparator": "."
+        },
+        "@schematics/angular:module": {
+            "typeSeparator": "."
+        },
+        "@schematics/angular:pipe": {
+            "typeSeparator": "."
+        },
+        "@schematics/angular:resolver": {
+            "typeSeparator": "."
+        }
     }
 }

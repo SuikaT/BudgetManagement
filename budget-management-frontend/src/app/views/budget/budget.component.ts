@@ -3,14 +3,15 @@ import { ExpenseListComponent } from "../../components/expense-list/expense-list
 import { ExpenseCardComponent } from "./expense-card/expense-card.component";
 import { BudgetToolbarComponent } from "./budget-toolbar/budget-toolbar.component";
 import { StoreService } from "../../services/store.service";
-import { CommonModule } from "@angular/common";
 import { Expense } from "../../model/interfaces/expense";
+import { CommonModule } from "@angular/common";
 
 @Component({
     selector: "app-budget",
     imports: [CommonModule, ExpenseListComponent, ExpenseCardComponent, BudgetToolbarComponent],
     templateUrl: "./budget.component.html",
     styleUrl: "./budget.component.scss",
+    standalone: true,
 })
 export class BudgetComponent implements OnInit {
     constructor(public _store: StoreService) {}

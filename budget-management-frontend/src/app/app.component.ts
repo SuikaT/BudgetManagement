@@ -8,6 +8,7 @@ import { ThemeService } from "./services/theme.service";
     imports: [RouterOutlet, FooterComponent],
     templateUrl: "./app.component.html",
     styleUrl: "./app.component.scss",
+    standalone: true,
 })
 export class AppComponent implements OnInit {
     title = "budget-management-frontend";
