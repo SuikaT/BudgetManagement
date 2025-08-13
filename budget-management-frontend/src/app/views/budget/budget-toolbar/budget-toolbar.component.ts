@@ -1,10 +1,11 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { MenuButtonComponent } from "../../../components/menu-button/menu-button.component";
-import { IconButtonComponent } from "suik-ui";
+import { MatIcon } from "@angular/material/icon";
+import { MatIconButton } from "@angular/material/button";
 
 @Component({
     selector: "app-budget-toolbar",
-    imports: [MenuButtonComponent, IconButtonComponent],
+    imports: [MenuButtonComponent, MatIcon, MatIconButton],
     templateUrl: "./budget-toolbar.component.html",
     styleUrl: "./budget-toolbar.component.scss",
     standalone: true,
@@ -43,5 +44,9 @@ export class BudgetToolbarComponent implements OnInit {
 
     onSelect(index: number) {
         this.selectedIndex = index;
+    }
+
+    onDateParameterClick(): void {
+        //TODO regroup my month / 3 month / 6 month / 1 year
     }
 }

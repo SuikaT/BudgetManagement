@@ -5,10 +5,11 @@ import { BudgetToolbarComponent } from "./budget-toolbar/budget-toolbar.componen
 import { StoreService } from "../../services/store.service";
 import { Expense } from "../../model/interfaces/expense";
 import { CommonModule } from "@angular/common";
+import { HeaderComponent } from "../header/header.component";
 
 @Component({
     selector: "app-budget",
-    imports: [CommonModule, ExpenseListComponent, ExpenseCardComponent, BudgetToolbarComponent],
+    imports: [CommonModule, ExpenseListComponent, ExpenseCardComponent, BudgetToolbarComponent, HeaderComponent],
     templateUrl: "./budget.component.html",
     styleUrl: "./budget.component.scss",
     standalone: true,

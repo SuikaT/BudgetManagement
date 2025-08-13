@@ -5,6 +5,7 @@
     flex-direction: column;
     overflow: hidden;
     padding-bottom: 2px;
+    gap: 2px;
 }
 .expense-sum-container {
     display: flex;
@@ -18,7 +19,6 @@
 app-budget-toolbar {
     height: 3rem;
     flex-shrink: 0;
-    margin-bottom: 2px;
 }
 
 expense-card {
