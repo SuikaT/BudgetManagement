@@ -18,7 +18,7 @@ app-root {
     flex-direction: column;
     height: 100vh;
 
-    background: var(--mat-sys-inverse-on-surface);
+    background: var(--mat-sys-surface-variant);
 }
 
 router-outlet + * {
@@ -27,7 +27,7 @@ router-outlet + * {
     overflow: auto;
 
     * {
-        background: var(--mat-sys-inverse-on-surface);
+        background: var(--mat-sys-surface-variant);
     }
 }
 

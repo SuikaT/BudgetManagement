@@ -12,3 +12,16 @@
     flex-direction: row-reverse;
     width: 80%;
 }
+
+.parameter {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 6px;
+}
+
+suikui-icon-button {
+    height: 24px;
+    width: 24px;
+}
