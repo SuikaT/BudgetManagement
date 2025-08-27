@@ -31,6 +31,10 @@ router-outlet + * {
     }
 }
 
+app-header {
+    background: var(--mat-sys-surface);
+}
+
 .light-theme {
     @include mat.theme(variables.$light-theme);
     @include overrides.theme-overrides();

@@ -4,13 +4,13 @@ import { MatIcon } from "@angular/material/icon";
 import { MatIconButton } from "@angular/material/button";
 
 @Component({
-    selector: "app-budget-toolbar",
+    selector: "app-expenses-toolbar",
     imports: [MenuButtonComponent, MatIcon, MatIconButton],
-    templateUrl: "./budget-toolbar.component.html",
-    styleUrl: "./budget-toolbar.component.scss",
+    templateUrl: "./expenses-toolbar.component.html",
+    styleUrl: "./expenses-toolbar.component.scss",
     standalone: true,
 })
-export class BudgetToolbarComponent implements OnInit {
+export class ExpensesToolbarComponent implements OnInit {
     menuItems: string[] = [];
 
     selectedIndex = 0;

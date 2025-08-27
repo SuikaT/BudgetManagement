@@ -3,11 +3,13 @@
     align-items: center;
     height: 5rem;
     flex-shrink: 0;
+    padding-left: 0.5rem;
+}
 
-    background: inherit;
+.title {
+    padding-left: 0.5rem;
 }
 
 * {
     font-size: 24px;
-    background: inherit;
 }

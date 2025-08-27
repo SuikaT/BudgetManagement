@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
-import { Expense } from "../../model/interfaces/expense";
 import { ExpenseItemComponent } from "./expense-item/expense-item.component";
+import { Expense } from "../../../model/interfaces/expense";
 
 @Component({
     selector: "app-expense-list",

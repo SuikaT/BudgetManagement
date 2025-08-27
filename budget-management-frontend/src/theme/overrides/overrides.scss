@@ -1,5 +1,7 @@
-@use "theme-overrides/ngx-custom-table-override.scss" as nct;
+@use "theme-overrides/ngx-custom-table-theme-override.scss" as nct;
+@use "theme-overrides/mat-icon-theme-override.scss" as icn;
 
 @mixin theme-overrides() {
-    @include nct.ngx-custom-table-overrides();
+    @include nct.ngx-custom-table-theme-overrides();
+    @include icn.mat-icon-theme-overrides();
 }

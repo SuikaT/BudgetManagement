@@ -1,4 +1,5 @@
-<button matIconButton>
-    <mat-icon>home</mat-icon>
-</button>
-<label>{{ title }}</label>
+@if (!hideReturn) {
+    <mat-icon (click)="return()">arrow_back</mat-icon>
+}
+
+<div class="title">{{ title }}</div>
