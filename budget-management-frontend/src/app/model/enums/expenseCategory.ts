@@ -1,1 +1,3 @@
-export enum ExpenseCategory {}
+export enum ExpenseCategory {
+    GROCERY,
+}

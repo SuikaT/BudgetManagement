@@ -3,4 +3,5 @@ export enum PaymentMethod {
     CASH,
     CHECK,
     BANK_TRANSFER,
+    CRYPTO_CURRENCY,
 }

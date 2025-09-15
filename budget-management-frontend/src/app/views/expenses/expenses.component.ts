@@ -4,13 +4,12 @@ import { ExpensesToolbarComponent } from "./expense-toolbar/expenses-toolbar.com
 import { StoreService } from "../../services/store.service";
 import { Expense } from "../../model/interfaces/expense";
 import { CommonModule } from "@angular/common";
-import { HeaderComponent } from "../header/header.component";
 import { StatesService } from "../../services/states.service";
-import { ExpenseListComponent } from "./expense-list/expense-list.component";
+import { ExpenseListComponent } from "../expenses/expense-list/expense-list.component";
 
 @Component({
     selector: "app-expenses",
-    imports: [CommonModule, ExpenseListComponent, ExpenseCardComponent, ExpensesToolbarComponent, HeaderComponent],
+    imports: [CommonModule, ExpenseListComponent, ExpenseCardComponent, ExpensesToolbarComponent],
     templateUrl: "./expenses.component.html",
     styleUrl: "./expenses.component.scss",
     standalone: true,
