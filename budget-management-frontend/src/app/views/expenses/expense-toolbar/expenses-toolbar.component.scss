@@ -3,6 +3,8 @@
 :host {
     display: flex;
     width: 100%;
+
+    background: var(--mat-sys-surface-variant);
 }
 
 .menu-items {

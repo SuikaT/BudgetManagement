@@ -7,6 +7,8 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+
+    background: var(--mat-sys-surface-variant);
 }
 .category {
     min-width: 3rem;

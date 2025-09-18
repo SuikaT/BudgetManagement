@@ -9,8 +9,10 @@ body {
     margin: 0;
     overflow: hidden;
 
-    background: var(--mat-sys-surface);
+    background: var(--mat-sys-background);
     color: var(--mat-sys-on-surface);
+
+    font-family: var(--mat-sys-body-medium-font);
 }
 
 app-root {
@@ -18,21 +20,13 @@ app-root {
     flex-direction: column;
     height: 100vh;
 
-    background: var(--mat-sys-surface-variant);
+    background: var(--mat-sys-surface);
 }
 
 router-outlet + * {
     flex: 1 1 auto;
     background: var(--mat-sys-surface);
     overflow: auto;
-
-    * {
-        background: var(--mat-sys-surface-variant);
-    }
-}
-
-app-header {
-    background: var(--mat-sys-surface);
 }
 
 .light-theme {
@@ -43,8 +37,4 @@ app-header {
 .dark-theme {
     @include mat.theme(variables.$dark-theme);
     @include overrides.theme-overrides();
-}
-
-* {
-    font-family: var(--mat-sys-body-medium-font);
 }
