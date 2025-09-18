@@ -1,0 +1,17 @@
+:host {
+    height: 100%;
+    display: flex;
+    padding-bottom: 0.2rem;
+}
+
+form {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.add-button {
+    margin-top: auto;
+    align-self: flex-end;
+}
