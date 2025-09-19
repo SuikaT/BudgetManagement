@@ -20,25 +20,5 @@ export class ExpensesComponent implements OnInit {
         private _states: StatesService,
     ) {}
 
-    ngOnInit(): void {
-        const expenses: Expense[] = [
-            { label: "test", amount: 10, date: new Date() },
-            { label: "test", amount: 10, date: new Date() },
-            { label: "test", amount: 10, date: new Date() },
-            { label: "test", amount: 10, date: new Date() },
-            { label: "test", amount: 10, date: new Date() },
-            { label: "test", amount: 10, date: new Date() },
-            { label: "test", amount: 10, date: new Date() },
-            { label: "test", amount: 10, date: new Date() },
-            { label: "test", amount: 10, date: new Date() },
-            { label: "test", amount: 10, date: new Date() },
-            { label: "test", amount: 10, date: new Date() },
-            { label: "test", amount: 10, date: new Date() },
-        ];
-        this._store.expenses$.next(expenses);
-
-        this._states.addEvent$.subscribe(() => {
-            console.log("Add clicked");
-        });
-    }
+    ngOnInit(): void {}
 }

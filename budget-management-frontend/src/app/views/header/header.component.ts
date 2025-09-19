@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { MatIconButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { ActivatedRoute, Router } from "@angular/router";
+import { StatesService } from "../../services/states.service";
 
 @Component({
     selector: "app-header",
@@ -9,7 +10,7 @@ import { ActivatedRoute, Router } from "@angular/router";
     templateUrl: "./header.component.html",
     styleUrl: "./header.component.scss",
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
     @Input()
     title?: string;
 
@@ -19,7 +20,14 @@ export class HeaderComponent {
     @Input()
     returnTo: string = "/";
 
-    constructor(private router: Router) {}
+    constructor(
+        private router: Router,
+        private _states: StatesService,
+    ) {}
+
+    ngOnInit(): void {
+        this._states.triggerReturn$.subscribe(() => this.return());
+    }
 
     return() {
         this.router.navigateByUrl(this.returnTo);

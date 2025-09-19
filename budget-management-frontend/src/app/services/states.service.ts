@@ -5,5 +5,5 @@ import { Subject } from "rxjs/internal/Subject";
     providedIn: "root",
 })
 export class StatesService {
-    public addEvent$: Subject<void> = new Subject();
+    public triggerReturn$: Subject<void> = new Subject();
 }
