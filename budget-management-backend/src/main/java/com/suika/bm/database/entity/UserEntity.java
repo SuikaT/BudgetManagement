@@ -22,6 +22,12 @@ public class UserEntity {
 
     private String email;
 
+    public UserEntity() {}
+
+    public UserEntity(Long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "User{" +

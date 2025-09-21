@@ -15,12 +15,13 @@ public class User {
 
     private String email;
 
-    public User(UserEntity entity) {
-        if(entity == null) return;
+    public User() {}
 
-        this.id = entity.getId();
-        this.lastname = entity.getLastname();
-        this.firstname = entity.getFirstname();
-        this.email = entity.getEmail();
+    public User(String email) {
+        this.email = email;
+    }
+
+    public User(Long id) {
+        this.id = id;
     }
 }

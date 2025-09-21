@@ -55,9 +55,9 @@ public class Controller {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("expensesByCategory")
-    public ResponseEntity<List<Expense>> getExpensesByCategory() {
-        List<Expense> expenseList = expenseService.getExpensesByCategory(ExpenseCategory.HEALTH);
+    @GetMapping("expenses")
+    public ResponseEntity<List<Expense>> getAllExpenses(@RequestParam Long userId) {
+        List<Expense> expenseList = expenseService.getExpensesByUserId(userId);
 
         return ResponseEntity.ok(expenseList);
     }

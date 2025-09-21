@@ -4,5 +4,7 @@ CREATE TABLE IF NOT EXISTS `expense` (
   `amount` float NOT NULL,
   `category` varchar(25) DEFAULT NULL,
   `expense_date` timestamp DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `user_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_expense_user` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
