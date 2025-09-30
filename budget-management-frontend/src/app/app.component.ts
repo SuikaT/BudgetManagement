@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, inject, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Data, NavigationEnd, Router, RouterOutlet, RoutesRecognized } from "@angular/router";
 import { FooterComponent } from "./views/footer/footer.component";
 import { ThemeService } from "./services/theme.service";
 import { HeaderComponent } from "./views/header/header.component";
 import { filter, Subscription } from "rxjs";
-import { UserService } from "./services/user.service";
+import { AuthService } from "./services/auth.service";
+import { AcquisitionService } from "./services/acquisition.service";
 
 @Component({
     selector: "app-root",
@@ -14,6 +15,9 @@ import { UserService } from "./services/user.service";
     standalone: true,
 })
 export class AppComponent implements OnInit, OnDestroy {
+    // inject AcquisitionService globaly
+    private readonly _ = inject(AcquisitionService);
+
     sub: Subscription | undefined;
 
     hideReturn = true;
@@ -23,7 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
     constructor(
         private _theme: ThemeService,
         private router: Router,
-        private _user: UserService,
+        private _user: AuthService,
     ) {}
 
     ngOnInit(): void {

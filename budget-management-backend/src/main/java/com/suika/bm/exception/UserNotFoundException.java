@@ -1,4 +1,4 @@
-package com.suika.bm.database;
+package com.suika.bm.exception;
 
 public class UserNotFoundException extends RuntimeException {
   public UserNotFoundException(Long userId) {

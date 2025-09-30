@@ -6,7 +6,7 @@ import { Router } from "@angular/router";
 import { StatesService } from "../../services/states.service";
 import { PersistenceService } from "../../services/persistence.service";
 import { NotificationService } from "../../services/notification.service";
-import { UserService } from "../../services/user.service";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
     selector: "app-add-expense",
@@ -20,7 +20,7 @@ export class AddExpenseComponent {
         private _states: StatesService,
         private _persistence: PersistenceService,
         private _notification: NotificationService,
-        private _user: UserService,
+        private _user: AuthService,
     ) {}
 
     onAdd(expense: Expense) {

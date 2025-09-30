@@ -1,7 +1,7 @@
 package com.suika.bm.exception;
 
-public class UserNotFoundException extends RuntimeException {
-  public UserNotFoundException(Long userId) {
-    super("User not found with id: " + userId);
+public class ExpenseNotFoundException extends RuntimeException {
+  public ExpenseNotFoundException(Long expenseId) {
+    super("Expense not found with id: " + expenseId);
   }
 }

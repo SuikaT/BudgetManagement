@@ -21,11 +21,10 @@ export class ExpenseFormComponent {
     expenseForm: FormGroup;
 
     paymentMethodEnum = PaymentMethod;
-
-    paymentMethods = Object.values(PaymentMethod).filter((p) => typeof p === "number");
+    paymentMethods: string[] = Object.values(PaymentMethod);
 
     expenseCategoryEnum = ExpenseCategory;
-    categories = Object.values(ExpenseCategory).filter((p) => typeof p === "number");
+    categories: string[] = Object.values(ExpenseCategory);
 
     @Output()
     onSubmit = new EventEmitter<Expense>();
@@ -41,8 +40,9 @@ export class ExpenseFormComponent {
     }
 
     submitClick() {
+        // map form values into an Expense object
         const expense = this.expenseFormToExpense();
-
+        // submit form
         this.onSubmit.emit(expense);
     }
 
@@ -51,10 +51,10 @@ export class ExpenseFormComponent {
 
         return {
             label: formValue.label,
-            amount: formValue.amount,
+            amount: Math.abs(formValue.amount),
             date: formValue.date,
-            paymentMethod: formValue.paymentMethod,
-            category: formValue.category,
+            paymentMethod: formValue.paymentMethod as PaymentMethod,
+            category: formValue.category as ExpenseCategory,
         };
     }
 }

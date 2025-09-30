@@ -4,7 +4,7 @@
         <mat-label>Category</mat-label>
         <mat-select formControlName="category">
             @for (c of categories; track c) {
-                <mat-option [value]="c">{{ expenseCategoryEnum[c] }}</mat-option>
+                <mat-option [value]="c">{{ c }}</mat-option>
             }
         </mat-select>
         @if (expenseForm.get("category")?.hasError("required")) {
@@ -46,7 +46,7 @@
         <mat-label>Payment Method</mat-label>
         <mat-select formControlName="paymentMethod">
             @for (p of paymentMethods; track p) {
-                <mat-option [value]="p">{{ paymentMethodEnum[p] }}</mat-option>
+                <mat-option [value]="p">{{ p }}</mat-option>
             }
         </mat-select>
         @if (expenseForm.get("paymentMethod")?.hasError("required")) {

@@ -1,16 +1,15 @@
 package com.suika.bm.database.service;
 
-import com.suika.bm.database.UserNotFoundException;
+import com.suika.bm.exception.ExpenseNotFoundException;
+import com.suika.bm.exception.UserNotFoundException;
 import com.suika.bm.database.entity.ExpenseEntity;
 import com.suika.bm.database.entity.UserEntity;
 import com.suika.bm.database.mapper.ExpenseMapper;
 import com.suika.bm.database.repository.ExpenseRepository;
 import com.suika.bm.database.repository.UserRepository;
 import com.suika.bm.model.enums.ExpenseCategory;
-import com.suika.bm.model.network.User;
 import com.suika.bm.model.product.Expense;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,5 +50,13 @@ public class ExpenseService {
         ExpenseEntity savedExpenseEntity = expenseRepository.save(expenseEntity);
 
         return expenseMapper.toDto(savedExpenseEntity);
+    }
+
+    public void deleteExpenseById(Long expenseId) {
+        if(!expenseRepository.existsById(expenseId)) {
+            throw new ExpenseNotFoundException(expenseId);
+        }
+
+        expenseRepository.deleteById(expenseId);
     }
 }
