@@ -41,13 +41,15 @@ public class ExpenseService {
                .toList();
     }
 
-    public ExpenseEntity addExpense(Long userId, Expense expense) {
+    public Expense addExpense( Expense expense, Long userId) {
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
 
         ExpenseEntity expenseEntity = expenseMapper.toEntity(expense);
         expenseEntity.setUser(user);
 
-        return expenseRepository.save(expenseEntity);
+        ExpenseEntity savedExpenseEntity = expenseRepository.save(expenseEntity);
+
+        return expenseMapper.toDto(savedExpenseEntity);
     }
 }

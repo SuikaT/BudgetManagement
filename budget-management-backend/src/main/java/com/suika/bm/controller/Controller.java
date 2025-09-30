@@ -1,6 +1,7 @@
 package com.suika.bm.controller;
 
 
+import com.suika.bm.database.entity.ExpenseEntity;
 import com.suika.bm.database.entity.UserEntity;
 import com.suika.bm.database.service.ExpenseService;
 import com.suika.bm.database.service.UserService;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping
+@RequestMapping("/api")
 public class Controller {
 
     private Logger logger = LoggerFactory.getLogger(Controller.class);
@@ -28,7 +29,7 @@ public class Controller {
     @Autowired
     private ExpenseService expenseService;
 
-    @GetMapping("test")
+    @GetMapping("/test")
     public UserEntity test() {
         UserEntity user = new UserEntity();
 
@@ -41,24 +42,35 @@ public class Controller {
         return user;
     }
 
-    @GetMapping("userById")
+    @GetMapping("/userById")
     public ResponseEntity<User> getUserById(@RequestParam Long id) {
         return userService.getUserById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("userByEmail")
+    @GetMapping("/userByEmail")
     public ResponseEntity<User> getUserByEmail(@RequestParam String email) {
         return userService.getUserByEmail(email)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("expenses")
+    @GetMapping("/expenses")
     public ResponseEntity<List<Expense>> getAllExpenses(@RequestParam Long userId) {
         List<Expense> expenseList = expenseService.getExpensesByUserId(userId);
 
         return ResponseEntity.ok(expenseList);
+    }
+
+    @PostMapping("/addExpense")
+    public ResponseEntity<Expense> addExpense(@RequestBody Expense expense, @RequestParam Long userId) {
+        try {
+            Expense savedExpense = expenseService.addExpense(expense, userId);
+
+            return ResponseEntity.ok(savedExpense);
+        } catch(Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 }
