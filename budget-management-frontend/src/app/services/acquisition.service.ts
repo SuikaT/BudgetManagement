@@ -27,7 +27,6 @@ export class AcquisitionService {
             )
             .subscribe({
                 next: (expenses) => {
-                    console.log(expenses);
                     this._store.expenses$.next(expenses);
                 },
                 error: (error) => {

@@ -1,14 +1,31 @@
-import { Component, Input } from "@angular/core";
+import { Component, HostListener, Input } from "@angular/core";
 import { Expense } from "../../../../model/interfaces/expense";
+import { MatCheckboxChange, MatCheckboxModule } from "@angular/material/checkbox";
+import { ExpensesService } from "../../expenses.service";
 
 @Component({
     selector: "app-expense-item",
-    imports: [],
+    imports: [MatCheckboxModule],
     templateUrl: "./expense-item.component.html",
     styleUrl: "./expense-item.component.scss",
     standalone: true,
 })
 export class ExpenseItemComponent {
+    constructor(public _expense: ExpensesService) {}
+
     @Input()
     expense?: Expense;
+
+    onSelectionChange($event: MatCheckboxChange) {
+        console.log($event);
+    }
+
+    @HostListener("click")
+    onHostClick() {
+        console.log("hostClick");
+        if (this.expense && this._expense.selectMod) {
+            console.log("add");
+            this._expense.updateSelection(this.expense);
+        }
+    }
 }

@@ -5,10 +5,11 @@ import { PersistenceService } from "../../../services/persistence.service";
 import { StoreService } from "../../../services/store.service";
 import { NotificationService } from "../../../services/notification.service";
 import { ExpensesService } from "../expenses.service";
+import { LongPressDirective } from "../../../directives/long-press.directive";
 
 @Component({
     selector: "app-expense-list",
-    imports: [ExpenseItemComponent],
+    imports: [ExpenseItemComponent, LongPressDirective],
     templateUrl: "./expense-list.component.html",
     styleUrl: "./expense-list.component.scss",
     standalone: true,
@@ -35,5 +36,10 @@ export class ExpenseListComponent {
                 },
             });
         }
+    }
+
+    activateSelectMod(expense: Expense) {
+        this._expense.selectMod = true;
+        this._expense.addExpenseToSelection(expense);
     }
 }

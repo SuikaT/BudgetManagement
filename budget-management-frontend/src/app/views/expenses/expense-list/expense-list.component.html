@@ -1,3 +1,3 @@
 @for (expense of expenses; track $index) {
-    <app-expense-item [expense]="expense" (click)="deleteExpense(expense)"></app-expense-item>
+    <app-expense-item [expense]="expense" (longPress)="activateSelectMod(expense)"></app-expense-item>
 }

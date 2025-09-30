@@ -55,6 +55,7 @@ export class ExpenseFormComponent {
             date: formValue.date,
             paymentMethod: formValue.paymentMethod as PaymentMethod,
             category: formValue.category as ExpenseCategory,
+            selected: false,
         };
     }
 }
