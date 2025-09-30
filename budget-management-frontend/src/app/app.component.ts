@@ -4,6 +4,7 @@ import { FooterComponent } from "./views/footer/footer.component";
 import { ThemeService } from "./services/theme.service";
 import { HeaderComponent } from "./views/header/header.component";
 import { filter, Subscription } from "rxjs";
+import { UserService } from "./services/user.service";
 
 @Component({
     selector: "app-root",
@@ -21,8 +22,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     constructor(
         private _theme: ThemeService,
-        private route: ActivatedRoute,
         private router: Router,
+        private _user: UserService,
     ) {}
 
     ngOnInit(): void {
@@ -34,6 +35,9 @@ export class AppComponent implements OnInit, OnDestroy {
             this.returnTo = data["returnTo"] ?? "/";
             this.title = data["title"] ?? "";
         });
+
+        // TODO Add connexion system
+        this._user.currentUser$.next({ id: 1, lastname: "Bourney", firstname: "Julien", email: "bourney.julien@gmaim.com" });
     }
 
     ngOnDestroy() {
