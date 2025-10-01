@@ -88,10 +88,22 @@ public class Controller {
     @DeleteMapping("/expenses/{expenseId}")
     public ResponseEntity<Void> deleteExpense(@PathVariable Long expenseId) {
         try {
-            System.out.println(expenseId);
             expenseService.deleteExpenseById(expenseId);
 
             return ResponseEntity.noContent().build(); // 204
+        } catch (ExpenseNotFoundException e) {
+            return ResponseEntity.notFound().build();  // 404
+        } catch(Exception e) {
+            return ResponseEntity.internalServerError().build(); // 500
+        }
+    }
+
+    @PutMapping("/expenses")
+    public ResponseEntity<Expense> deleteExpense(@RequestBody Expense expense) {
+        try {
+            Expense updatedExpense = expenseService.updateExpense(expense);
+
+            return ResponseEntity.ok(updatedExpense);
         } catch (ExpenseNotFoundException e) {
             return ResponseEntity.notFound().build();  // 404
         } catch(Exception e) {

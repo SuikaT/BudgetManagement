@@ -1,6 +1,7 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { ExpensesService } from "../expenses.service";
 import { CommonModule } from "@angular/common";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-expense-footer",
@@ -9,6 +10,8 @@ import { CommonModule } from "@angular/common";
     styleUrl: "./expense-footer.component.scss",
 })
 export class ExpenseFooterComponent {
+    private router = inject(Router);
+
     constructor(public _expense: ExpensesService) {}
 
     deleteExpenses() {
@@ -20,7 +23,7 @@ export class ExpenseFooterComponent {
             return;
         }
 
-        //TODO edit
+        this.router.navigate(["/edit-expense"]);
     }
 
     hideExpenses() {

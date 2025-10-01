@@ -1,7 +1,8 @@
 package com.suika.bm.model.product;
 
-import com.suika.bm.database.entity.ExpenseEntity;
 import com.suika.bm.model.enums.ExpenseCategory;
+import com.suika.bm.model.enums.ExpenseSchedule;
+import com.suika.bm.model.enums.PaymentMethod;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,18 +18,19 @@ public class Expense {
 
     Long id;
 
+    String label;
+
     float amount;
+
+    LocalDateTime date;
 
     ExpenseCategory category;
 
-    LocalDateTime expenseDate;
+    PaymentMethod paymentMethod;
 
-    public Expense(ExpenseEntity entity) {
-        if(entity == null) return;
+    ExpenseSchedule schedule;
 
-        this.id = entity.getId();
-        this.amount = entity.getAmount();
-        this.category = entity.getCategory();
-        this.expenseDate = entity.getExpenseDate();
-    }
+    boolean variable;
+
+    boolean hide;
 }

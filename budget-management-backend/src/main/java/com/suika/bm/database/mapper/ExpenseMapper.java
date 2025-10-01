@@ -11,9 +11,15 @@ public class ExpenseMapper {
 
         ExpenseEntity entity = new ExpenseEntity();
         entity.setId(expense.getId());
+        entity.setLabel(expense.getLabel());
         entity.setAmount(expense.getAmount());
+        entity.setDate(expense.getDate());
         entity.setCategory(expense.getCategory());
-        entity.setExpenseDate(expense.getExpenseDate());
+        entity.setPaymentMethod(expense.getPaymentMethod());
+        entity.setSchedule(expense.getSchedule());
+        entity.setVariable(expense.isVariable());
+        entity.setHide(expense.isHide());
+
         return entity;
     }
 
@@ -22,9 +28,29 @@ public class ExpenseMapper {
 
         Expense dto = new Expense();
         dto.setId(entity.getId());
+        dto.setLabel(entity.getLabel());
         dto.setAmount(entity.getAmount());
+        dto.setDate(entity.getDate());
         dto.setCategory(entity.getCategory());
-        dto.setExpenseDate(entity.getExpenseDate());
+        dto.setPaymentMethod(entity.getPaymentMethod());
+        dto.setSchedule(entity.getSchedule());
+        dto.setVariable(entity.isVariable());
+        dto.setHide(entity.isHide());
         return dto;
+    }
+
+    public void updateEntityFromDto(ExpenseEntity entity, Expense expense) {
+        if(entity == null || expense == null) {
+            return;
+        }
+
+        entity.setLabel(expense.getLabel());
+        entity.setAmount(expense.getAmount());
+        entity.setDate(expense.getDate());
+        entity.setCategory(expense.getCategory());
+        entity.setPaymentMethod(expense.getPaymentMethod());
+        entity.setSchedule(expense.getSchedule());
+        entity.setVariable(expense.isVariable());
+        entity.setHide(expense.isHide());
     }
 }

@@ -1,10 +1,10 @@
 export enum ExpenseSchedule {
-    DAILY,
-    WEEKLY,
-    BIMONTHLY,
-    MONTHLY,
-    BIMESTRIAL,
-    QUARTERLY,
-    BIANNUAL,
-    ANNUAL,
+    DAILY = "DAILY",
+    WEEKLY = "WEEKLY",
+    BIMONTHLY = "BIMONTHLY",
+    MONTHLY = "MONTHLY",
+    BIMESTRIAL = "BIMESTRIAL",
+    QUARTERLY = "QUARTERLY",
+    BIANNUAL = "BIANNUAL",
+    ANNUAL = "ANNUAL",
 }

@@ -64,4 +64,11 @@ export class ExpensesService {
 
         return result;
     }
+
+    resetSelectedExpenses() {
+        // update selected value
+        this.selectedExpenses.forEach((e) => (e.selected = false));
+        // empty array
+        this.selectedExpenses = [];
+    }
 }

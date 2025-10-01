@@ -11,6 +11,7 @@ import com.suika.bm.model.enums.ExpenseCategory;
 import com.suika.bm.model.product.Expense;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class ExpenseService {
     private final UserRepository userRepository;
     private final ExpenseMapper expenseMapper;
 
-
+    @Transactional
     public List<Expense> getExpensesByUserId(Long userId) {
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
@@ -33,6 +34,7 @@ public class ExpenseService {
                 .toList();
     }
 
+    @Transactional
     public List<Expense> getExpensesByCategory(ExpenseCategory category) {
        return expenseRepository.findAllByCategory(category)
                .stream()
@@ -40,6 +42,7 @@ public class ExpenseService {
                .toList();
     }
 
+    @Transactional
     public Expense addExpense( Expense expense, Long userId) {
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
@@ -52,11 +55,28 @@ public class ExpenseService {
         return expenseMapper.toDto(savedExpenseEntity);
     }
 
+    @Transactional
     public void deleteExpenseById(Long expenseId) {
         if(!expenseRepository.existsById(expenseId)) {
             throw new ExpenseNotFoundException(expenseId);
         }
 
         expenseRepository.deleteById(expenseId);
+    }
+
+    @Transactional
+    public Expense updateExpense(Expense expense) {
+        if(expense == null ) {
+            throw new ExpenseNotFoundException(null);
+        }
+
+        ExpenseEntity entityToUpdate = expenseRepository.findById(expense.getId())
+                .orElseThrow(() -> new ExpenseNotFoundException(expense.getId()));
+
+        expenseMapper.updateEntityFromDto(entityToUpdate, expense);
+
+        ExpenseEntity updatedEntity = expenseRepository.save(entityToUpdate);
+
+        return expenseMapper.toDto(updatedEntity);
     }
 }

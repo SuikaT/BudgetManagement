@@ -1,9 +1,13 @@
 package com.suika.bm.model.enums;
 
-public enum PaymentMethod {
-    BANK_CARD,
-    CASH,
-    CHECK,
-    BANK_TRANSFER,
-    CRYPTO_CURRENCY
+public enum ExpenseSchedule {
+    UNDEFINED,
+    DAILY,
+    WEEKLY,
+    BIMONTHLY,
+    MONTHLY,
+    BIMESTRIAL,
+    QUARTERLY,
+    BIANNUAL,
+    ANNUAL,
 }

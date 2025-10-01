@@ -22,4 +22,8 @@ export class PersistenceService {
     deleteExpense(expense: Expense): Observable<void> {
         return this.http.delete<void>(`${environment.apiUrl}/expenses/${expense?.id}`).pipe(first());
     }
+
+    updateExpense(expense: Expense): Observable<Expense> {
+        return this.http.put<Expense>(`${environment.apiUrl}/expenses`, expense).pipe(first());
+    }
 }

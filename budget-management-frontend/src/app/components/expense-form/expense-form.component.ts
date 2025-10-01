@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatNativeDateModule } from "@angular/material/core";
@@ -18,8 +18,8 @@ import { MatCheckbox } from "@angular/material/checkbox";
     templateUrl: "./expense-form.component.html",
     styleUrl: "./expense-form.component.scss",
 })
-export class ExpenseFormComponent {
-    expenseForm: FormGroup;
+export class ExpenseFormComponent implements OnInit {
+    expenseForm!: FormGroup;
 
     paymentMethodEnum = PaymentMethod;
     paymentMethods: string[] = Object.values(PaymentMethod);
@@ -27,23 +27,32 @@ export class ExpenseFormComponent {
     expenseCategoryEnum = ExpenseCategory;
     categories: string[] = Object.values(ExpenseCategory);
 
+    @Input()
+    submitLabel: string = "";
+
+    @Input()
+    expense: Expense | undefined;
+
     @Output()
     onSubmit = new EventEmitter<Expense>();
 
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: FormBuilder) {}
+
+    ngOnInit(): void {
         this.expenseForm = this.fb.group<ExpenseForm>({
-            label: this.fb.control("Expense", { validators: [Validators.required] }),
-            amount: this.fb.control(0, { validators: [Validators.required] }),
-            date: this.fb.control(new Date(), { validators: [Validators.required] }),
-            category: this.fb.control(ExpenseCategory.GROCERY, { validators: [Validators.required] }),
-            paymentMethod: this.fb.control(PaymentMethod.BANK_CARD, { validators: [Validators.required] }),
-            hide: this.fb.control(false, { validators: [Validators.required] }),
+            label: this.fb.control(this.expense?.label ?? "Expense", { validators: [Validators.required] }),
+            amount: this.fb.control(this.expense?.amount ?? 0, { validators: [Validators.required] }),
+            date: this.fb.control(this.expense?.date ?? new Date(), { validators: [Validators.required] }),
+            category: this.fb.control(this.expense?.category ?? ExpenseCategory.GROCERY, { validators: [Validators.required] }),
+            paymentMethod: this.fb.control(this.expense?.paymentMethod ?? PaymentMethod.BANK_CARD, { validators: [Validators.required] }),
+            hide: this.fb.control(this.expense?.hide ?? false),
         });
     }
 
     submitClick() {
         // map form values into an Expense object
-        const expense = this.expenseFormToExpense();
+        const expense = this.expense ? this.updateExpense() : this.expenseFormToExpense();
+
         // submit form
         this.onSubmit.emit(expense);
     }
@@ -58,6 +67,20 @@ export class ExpenseFormComponent {
             paymentMethod: formValue.paymentMethod as PaymentMethod,
             category: formValue.category as ExpenseCategory,
             selected: false,
+            hide: formValue.hide,
+        };
+    }
+
+    updateExpense(): Expense {
+        const formValue = this.expenseForm.getRawValue();
+
+        return {
+            ...this.expense!,
+            label: formValue.label,
+            amount: Math.abs(formValue.amount),
+            date: formValue.date,
+            paymentMethod: formValue.paymentMethod as PaymentMethod,
+            category: formValue.category as ExpenseCategory,
             hide: formValue.hide,
         };
     }

@@ -2,6 +2,8 @@ package com.suika.bm.database.entity;
 
 import com.suika.bm.database.service.ExpenseService;
 import com.suika.bm.model.enums.ExpenseCategory;
+import com.suika.bm.model.enums.ExpenseSchedule;
+import com.suika.bm.model.enums.PaymentMethod;
 import com.suika.bm.model.product.Expense;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,12 +21,25 @@ public class ExpenseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    String label;
+
     float amount;
+
+    LocalDateTime date;
 
     @Enumerated(EnumType.STRING)
     ExpenseCategory category;
 
-    LocalDateTime expenseDate;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_method")
+    PaymentMethod paymentMethod;
+
+    @Enumerated(EnumType.STRING)
+    ExpenseSchedule schedule;
+
+    boolean variable;
+
+    boolean hide;
 
     @ManyToOne(fetch = FetchType.LAZY) // LAZY is usually better than EAGER
     @JoinColumn(name = "user_id", nullable = false) // FK column in expense table

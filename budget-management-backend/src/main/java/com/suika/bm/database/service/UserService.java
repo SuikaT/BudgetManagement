@@ -6,6 +6,7 @@ import com.suika.bm.model.network.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -16,11 +17,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
+    @Transactional
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id)
                 .map(userMapper::toDto);
     }
 
+    @Transactional
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .map(userMapper::toDto);
