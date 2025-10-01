@@ -22,9 +22,7 @@ export class ExpenseItemComponent {
 
     @HostListener("click")
     onHostClick() {
-        console.log("hostClick");
         if (this.expense && this._expense.selectMod) {
-            console.log("add");
             this._expense.updateSelection(this.expense);
         }
     }

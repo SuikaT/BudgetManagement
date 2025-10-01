@@ -27,15 +27,13 @@ export class ExpensesService {
     removeExpenseFromSelection(expense: Expense) {
         this.selectedExpenses = this.selectedExpenses.filter((e) => e.id != expense.id);
         expense.selected = false;
-
-        console.log(expense);
     }
 
     updateSelection(expense: Expense) {
         if (expense.selected) {
-            this.addExpenseToSelection(expense);
-        } else {
             this.removeExpenseFromSelection(expense);
+        } else {
+            this.addExpenseToSelection(expense);
         }
     }
 }
