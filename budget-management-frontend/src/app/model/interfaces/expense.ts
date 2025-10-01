@@ -12,4 +12,5 @@ export interface Expense {
     schedule?: ExpenseSchedule;
     paymentMethod?: PaymentMethod;
     selected: boolean;
+    hide: boolean;
 }

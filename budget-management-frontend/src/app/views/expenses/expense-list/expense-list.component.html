@@ -1,3 +1,5 @@
 @for (expense of expenses; track $index) {
-    <app-expense-item [expense]="expense" (longPress)="activateSelectMod(expense)"></app-expense-item>
+    @if (!expense.hide) {
+        <app-expense-item [expense]="expense" (longPress)="activateSelectMod(expense)"></app-expense-item>
+    }
 }

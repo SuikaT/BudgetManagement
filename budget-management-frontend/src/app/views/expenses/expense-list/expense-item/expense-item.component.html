@@ -1,5 +1,5 @@
-@if (_expense.selectMod) {
-    <mat-checkbox [checked]="expense?.selected" (change)="onSelectionChange($event)"></mat-checkbox>
+@if (_expense.selectionMod) {
+    <mat-checkbox [checked]="expense?.selected"></mat-checkbox>
 }
 <div class="category">{{ expense?.category }}</div>
 <div class="label">{{ expense?.label }}</div>

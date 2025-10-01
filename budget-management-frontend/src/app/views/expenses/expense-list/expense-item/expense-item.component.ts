@@ -16,13 +16,9 @@ export class ExpenseItemComponent {
     @Input()
     expense?: Expense;
 
-    onSelectionChange($event: MatCheckboxChange) {
-        console.log($event);
-    }
-
     @HostListener("click")
     onHostClick() {
-        if (this.expense && this._expense.selectMod) {
+        if (this.expense && this._expense.selectionMod) {
             this._expense.updateSelection(this.expense);
         }
     }

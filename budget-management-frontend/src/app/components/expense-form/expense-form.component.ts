@@ -10,10 +10,11 @@ import { ExpenseForm } from "../../model/interfaces/expense-form";
 import { PaymentMethod } from "../../model/enums/PaymentMethod";
 import { ExpenseCategory } from "../../model/enums/expenseCategory";
 import { Expense } from "../../model/interfaces/expense";
+import { MatCheckbox } from "@angular/material/checkbox";
 
 @Component({
     selector: "app-expense-form",
-    imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatNativeDateModule, MatDatepickerModule, MatSelectModule],
+    imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatNativeDateModule, MatDatepickerModule, MatSelectModule, MatCheckbox],
     templateUrl: "./expense-form.component.html",
     styleUrl: "./expense-form.component.scss",
 })
@@ -36,6 +37,7 @@ export class ExpenseFormComponent {
             date: this.fb.control(new Date(), { validators: [Validators.required] }),
             category: this.fb.control(ExpenseCategory.GROCERY, { validators: [Validators.required] }),
             paymentMethod: this.fb.control(PaymentMethod.BANK_CARD, { validators: [Validators.required] }),
+            hide: this.fb.control(false, { validators: [Validators.required] }),
         });
     }
 
@@ -56,6 +58,7 @@ export class ExpenseFormComponent {
             paymentMethod: formValue.paymentMethod as PaymentMethod,
             category: formValue.category as ExpenseCategory,
             selected: false,
+            hide: formValue.hide,
         };
     }
 }

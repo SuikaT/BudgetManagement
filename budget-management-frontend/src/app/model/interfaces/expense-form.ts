@@ -6,4 +6,5 @@ export interface ExpenseForm {
     date: FormControl<Date | null>;
     category: FormControl<string | null>;
     paymentMethod: FormControl<string | null>;
+    hide: FormControl<boolean | null>;
 }

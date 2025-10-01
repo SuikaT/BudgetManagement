@@ -6,10 +6,12 @@ import { Expense } from "../../model/interfaces/expense";
 import { CommonModule } from "@angular/common";
 import { StatesService } from "../../services/states.service";
 import { ExpenseListComponent } from "../expenses/expense-list/expense-list.component";
+import { ExpenseFooterComponent } from "./expense-footer/expense-footer.component";
+import { ExpensesService } from "./expenses.service";
 
 @Component({
     selector: "app-expenses",
-    imports: [CommonModule, ExpenseListComponent, ExpenseCardComponent, ExpensesToolbarComponent],
+    imports: [CommonModule, ExpenseListComponent, ExpenseCardComponent, ExpensesToolbarComponent, ExpenseFooterComponent],
     templateUrl: "./expenses.component.html",
     styleUrl: "./expenses.component.scss",
     standalone: true,
@@ -17,8 +19,12 @@ import { ExpenseListComponent } from "../expenses/expense-list/expense-list.comp
 export class ExpensesComponent implements OnInit {
     constructor(
         public _store: StoreService,
-        private _states: StatesService,
+        public _expense: ExpensesService,
     ) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this._store.expenses$.subscribe(() => {
+            this._expense.refreshAmount();
+        });
+    }
 }

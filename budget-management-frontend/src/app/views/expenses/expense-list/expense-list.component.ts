@@ -39,7 +39,9 @@ export class ExpenseListComponent {
     }
 
     activateSelectMod(expense: Expense) {
-        this._expense.selectMod = true;
-        this._expense.addExpenseToSelection(expense);
+        if (!this._expense.selectionMod) {
+            this._expense.selectionMod = true;
+            this._expense.addExpenseToSelection(expense);
+        }
     }
 }
