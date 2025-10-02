@@ -34,7 +34,6 @@ export class ExpensesToolbarComponent implements OnInit {
             if (dateRange) {
                 this.refreshMenuItems(dateRange);
 
-                console.log(dateRange);
                 if (this.menuItems.length > 0) {
                     // update filterDateRange
                     this.select(this.menuItems[0], 0);
