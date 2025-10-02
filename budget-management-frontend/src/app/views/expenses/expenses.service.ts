@@ -4,6 +4,10 @@ import { StoreService } from "../../services/store.service";
 import { DateRange } from "../../model/interfaces/DateRange";
 import { ExpenseSchedule } from "../../model/enums/expenseSchedule";
 import { BehaviorSubject } from "rxjs";
+import { AuthService } from "../../services/auth.service";
+import { ExpenseCategory } from "../../model/enums/expenseCategory";
+import { PersistenceService } from "../../services/persistence.service";
+import { NotificationService } from "../../services/notification.service";
 
 @Injectable({
     providedIn: "root",
@@ -12,7 +16,7 @@ export class ExpensesService {
     amount: number = 0;
 
     selectedExpenses: Expense[] = [];
-    selectionMod: boolean = false;
+    selectionEnabled: boolean = false;
 
     filterDateRange$ = new BehaviorSubject<DateRange>({
         start: this.getFirstDayOfMonth(new Date()),
@@ -21,7 +25,57 @@ export class ExpensesService {
 
     groupingStrategy$ = new BehaviorSubject<ExpenseSchedule>(ExpenseSchedule.MONTHLY);
 
-    constructor(private _store: StoreService) {}
+    expensesByCategories: Expense[] = [];
+
+    constructor(
+        private _store: StoreService,
+        private _auth: AuthService,
+        private _persistence: PersistenceService,
+        private _notification: NotificationService,
+    ) {
+        // refresh amount on expenses update
+        this._store.expenses$.subscribe((expenses) => {
+            this.refreshAmount();
+
+            this.expensesByCategories = this.buildExpensesByCategories(expenses);
+        });
+
+        // retrieve expenses on date range selection change
+        this.filterDateRange$.subscribe((dateRange) => {
+            const user = this._auth.currentUser;
+            if (user) {
+                this._persistence.getExpenses(user.id, dateRange).subscribe({
+                    next: (expenses) => {
+                        this._store.expenses$.next(expenses);
+                    },
+                    error: (error) => {
+                        console.error("Error loading data:", error);
+                    },
+                });
+            }
+        });
+    }
+
+    buildExpensesByCategories(expenses: Expense[]): Expense[] {
+        if (!expenses) return [];
+
+        const expenseByCategoryMap = new Map<ExpenseCategory, Expense>();
+
+        expenses.forEach((e) => {
+            if (!e.category || e.hide) {
+                return;
+            }
+
+            const expenseByCategory = expenseByCategoryMap.get(e.category);
+            if (expenseByCategory) {
+                expenseByCategory.amount += e.amount;
+            } else {
+                expenseByCategoryMap.set(e.category, { category: e.category, label: e.category, amount: e.amount });
+            }
+        });
+
+        return Array.from(expenseByCategoryMap.values());
+    }
 
     getFirstDayOfMonth(date: Date): Date {
         return new Date(date.getFullYear(), date.getMonth(), 1);
@@ -55,6 +109,8 @@ export class ExpensesService {
     }
 
     updateSelection(expense: Expense) {
+        if (!this.selectionEnabled) return;
+
         if (expense.selected) {
             this.removeExpenseFromSelection(expense);
         } else {
@@ -62,8 +118,8 @@ export class ExpensesService {
         }
     }
 
-    hideExpenses(expenses: Expense[], hide: boolean) {
-        expenses?.forEach((e) => (e.hide = hide));
+    hideSelectedExpenses(hide: boolean) {
+        this.selectedExpenses?.forEach((e) => (e.hide = hide));
 
         this.refreshAmount();
     }
@@ -88,6 +144,27 @@ export class ExpensesService {
         this.selectedExpenses.forEach((e) => (e.selected = false));
         // empty array
         this.selectedExpenses = [];
+    }
+
+    deleteSelectedExpenses() {
+        if (this.selectedExpenses.length > 0) {
+            this._persistence.deleteExpenses(this.selectedExpenses).subscribe({
+                next: () => {
+                    this.removeExpenses(this.selectedExpenses);
+                    this._notification.showSuccess("Expense successfully deleted.");
+                },
+                error: () => {
+                    this._notification.showError("An error occurred while trying to delete the expense.");
+                },
+            });
+        }
+    }
+
+    enableSelection(expense: Expense) {
+        if (!this.selectionEnabled) {
+            this.selectionEnabled = true;
+            this.addExpenseToSelection(expense);
+        }
     }
 
     get filterDateRange(): DateRange {

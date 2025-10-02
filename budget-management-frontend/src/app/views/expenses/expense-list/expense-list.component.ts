@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { ExpenseItemComponent } from "./expense-item/expense-item.component";
 import { Expense } from "../../../model/interfaces/expense";
 import { PersistenceService } from "../../../services/persistence.service";
@@ -18,30 +18,18 @@ export class ExpenseListComponent {
     @Input()
     expenses: Expense[] = [];
 
+    @Input()
+    selectionAvailable = false;
+
+    @Output()
+    onItemClick = new EventEmitter<Expense>();
+
+    @Output()
+    onLongPress = new EventEmitter<Expense>();
+
     constructor(
         private _persistence: PersistenceService,
         private _notification: NotificationService,
         private _expense: ExpensesService,
     ) {}
-
-    deleteExpense(expense: Expense) {
-        if (expense && expense.id) {
-            this._persistence.deleteExpense(expense).subscribe({
-                next: () => {
-                    this._expense.removeExpense(expense.id!);
-                    this._notification.showSuccess("Expense successfully deleted.");
-                },
-                error: (err) => {
-                    this._notification.showError("An error occurred while trying to delete the expense.");
-                },
-            });
-        }
-    }
-
-    activateSelectMod(expense: Expense) {
-        if (!this._expense.selectionMod) {
-            this._expense.selectionMod = true;
-            this._expense.addExpenseToSelection(expense);
-        }
-    }
 }

@@ -15,11 +15,4 @@ export class ExpenseItemComponent {
 
     @Input()
     expense?: Expense;
-
-    @HostListener("click")
-    onHostClick() {
-        if (this.expense && this._expense.selectionMod) {
-            this._expense.updateSelection(this.expense);
-        }
-    }
 }

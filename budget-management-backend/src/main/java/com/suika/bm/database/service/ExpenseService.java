@@ -66,12 +66,12 @@ public class ExpenseService {
     }
 
     @Transactional
-    public void deleteExpenseById(Long expenseId) {
-        if(!expenseRepository.existsById(expenseId)) {
-            throw new ExpenseNotFoundException(expenseId);
+    public void deleteExpenseByIds(List<Long> expenseIds) {
+        if(expenseIds == null) {
+            throw new IllegalArgumentException();
         }
 
-        expenseRepository.deleteById(expenseId);
+        expenseRepository.deleteAllById(expenseIds);
     }
 
     @Transactional

@@ -6,11 +6,11 @@ export interface Expense {
     id?: number;
     label: string;
     amount: number;
-    date: Date;
+    date?: Date;
     category?: ExpenseCategory;
     variable?: boolean;
     schedule?: ExpenseSchedule;
     paymentMethod?: PaymentMethod;
-    selected: boolean;
-    hide: boolean;
+    selected?: boolean;
+    hide?: boolean;
 }

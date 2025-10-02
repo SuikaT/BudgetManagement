@@ -1,5 +1,5 @@
 import { Component, inject, OnDestroy, OnInit } from "@angular/core";
-import { ActivatedRoute, Data, NavigationEnd, Router, RouterOutlet, RoutesRecognized } from "@angular/router";
+import { ActivatedRoute, ActivatedRouteSnapshot, Data, NavigationEnd, Router, RouterOutlet, RoutesRecognized } from "@angular/router";
 import { FooterComponent } from "./views/footer/footer.component";
 import { ThemeService } from "./services/theme.service";
 import { HeaderComponent } from "./views/header/header.component";
@@ -34,7 +34,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this._theme.initTheme();
 
         this.sub = this.router.events.pipe(filter((e) => e instanceof RoutesRecognized)).subscribe((event) => {
-            const data = event.state.root.firstChild?.data ?? {};
+            const snapshot = this.getDeepestChild((event as RoutesRecognized).state.root);
+            const data = snapshot.data ?? {};
+
             this.hideReturn = data["hideReturn"] ?? true;
             this.returnTo = data["returnTo"] ?? "/";
             this.title = data["title"] ?? "";
@@ -46,5 +48,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.sub?.unsubscribe();
+    }
+
+    getDeepestChild(route: ActivatedRouteSnapshot): ActivatedRouteSnapshot {
+        let current = route;
+        while (current.firstChild) {
+            current = current.firstChild;
+        }
+        return current;
     }
 }

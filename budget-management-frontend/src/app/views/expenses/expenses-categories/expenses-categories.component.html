@@ -1,0 +1,5 @@
+<section class="expense-sum-container">
+    <app-expense-card title="Dépenses" [amount]="_expense.amount"></app-expense-card>
+    <app-expense-card title="Revenus" [amount]="1300.31"></app-expense-card>
+</section>
+<app-expense-list [expenses]="_expense.expensesByCategories" (onItemClick)="onCategoryClick($event)"></app-expense-list>

@@ -89,15 +89,13 @@ public class Controller {
         }
     }
 
-    @DeleteMapping("/expenses/{expenseId}")
-    public ResponseEntity<Void> deleteExpense(@PathVariable Long expenseId) {
+    @DeleteMapping("/expenses")
+    public ResponseEntity<Void> deleteExpenses(@RequestBody List<Long> expenseIds) {
         try {
-            expenseService.deleteExpenseById(expenseId);
+            expenseService.deleteExpenseByIds(expenseIds);
 
             return ResponseEntity.noContent().build(); // 204
-        } catch (ExpenseNotFoundException e) {
-            return ResponseEntity.notFound().build();  // 404
-        } catch(Exception e) {
+        }  catch(Exception e) {
             return ResponseEntity.internalServerError().build(); // 500
         }
     }

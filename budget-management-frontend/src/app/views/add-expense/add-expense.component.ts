@@ -56,7 +56,7 @@ export class AddExpenseComponent {
 
     private actualizeStore(savedExpense: Expense) {
         // do not' add an expense outside of the selected date range in the store
-        if (savedExpense.date >= this._expense.filterDateRange.start && savedExpense.date <= this._expense.filterDateRange.end) {
+        if (savedExpense.date && savedExpense.date >= this._expense.filterDateRange.start && savedExpense.date <= this._expense.filterDateRange.end) {
             // retrieve actual expenses
             const currentExpenses = this._store.expenses$.getValue();
             // add expense to the store with the updated list
