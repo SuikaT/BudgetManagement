@@ -16,8 +16,6 @@ public class ExpenseMapper {
         entity.setDate(expense.getDate());
         entity.setCategory(expense.getCategory());
         entity.setPaymentMethod(expense.getPaymentMethod());
-        entity.setSchedule(expense.getSchedule());
-        entity.setVariable(expense.isVariable());
         entity.setHide(expense.isHide());
 
         return entity;
@@ -33,8 +31,6 @@ public class ExpenseMapper {
         dto.setDate(entity.getDate());
         dto.setCategory(entity.getCategory());
         dto.setPaymentMethod(entity.getPaymentMethod());
-        dto.setSchedule(entity.getSchedule());
-        dto.setVariable(entity.isVariable());
         dto.setHide(entity.isHide());
         return dto;
     }
@@ -49,8 +45,6 @@ public class ExpenseMapper {
         entity.setDate(expense.getDate());
         entity.setCategory(expense.getCategory());
         entity.setPaymentMethod(expense.getPaymentMethod());
-        entity.setSchedule(expense.getSchedule());
-        entity.setVariable(expense.isVariable());
         entity.setHide(expense.isHide());
     }
 }

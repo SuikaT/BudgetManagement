@@ -5,8 +5,6 @@ CREATE TABLE IF NOT EXISTS `expense` (
   `date` timestamp DEFAULT CURRENT_TIMESTAMP,
   `category` varchar(25) DEFAULT NULL,
   `payment_method` varchar(25) DEFAULT NULL,
-  `schedule` varchar(25) DEFAULT NULL,
-  `variable` BOOLEAN DEFAULT FALSE,
   `hide` BOOLEAN DEFAULT FALSE,
   `user_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),

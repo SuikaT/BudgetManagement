@@ -13,12 +13,12 @@ import { Expense } from "../../model/interfaces/expense";
 import { MatCheckbox } from "@angular/material/checkbox";
 
 @Component({
-    selector: "app-expense-form",
+    selector: "app-budget-form",
     imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatNativeDateModule, MatDatepickerModule, MatSelectModule, MatCheckbox],
-    templateUrl: "./expense-form.component.html",
-    styleUrl: "./expense-form.component.scss",
+    templateUrl: "./budget-form.component.html",
+    styleUrl: "./budget-form.component.scss",
 })
-export class ExpenseFormComponent implements OnInit {
+export class BudgetFormComponent implements OnInit {
     expenseForm!: FormGroup;
 
     paymentMethodEnum = PaymentMethod;

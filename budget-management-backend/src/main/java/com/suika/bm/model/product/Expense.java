@@ -29,9 +29,5 @@ public class Expense {
 
     PaymentMethod paymentMethod;
 
-    ExpenseSchedule schedule;
-
-    boolean variable;
-
     boolean hide;
 }

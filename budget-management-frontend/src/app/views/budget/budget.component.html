@@ -1,1 +1,8 @@
-<p>budget works!</p>
+<div class="toolbar">
+    <div class="subtitle">Budget items</div>
+
+    <button matIconButton (click)="openAddBudgetItem()">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
+<app-budget-item-list [budgetItems]="(this._store.budgetItems$ | async) ?? []"></app-budget-item-list>

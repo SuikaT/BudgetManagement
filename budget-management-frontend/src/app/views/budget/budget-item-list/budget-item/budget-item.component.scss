@@ -1,0 +1,24 @@
+:host {
+    border-radius: 5px;
+    height: 3rem;
+    flex-shrink: 0;
+    padding: 1rem;
+
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    background: var(--mat-sys-surface-variant);
+}
+
+.category {
+    min-width: 3rem;
+}
+
+.label {
+    flex: 1;
+}
+
+.amount {
+    text-wrap: nowrap;
+}

@@ -1,5 +1,4 @@
 import { ExpenseCategory } from "../enums/expenseCategory";
-import { ExpenseSchedule } from "../enums/expenseSchedule";
 import { PaymentMethod } from "../enums/PaymentMethod";
 
 export interface Expense {
@@ -8,8 +7,6 @@ export interface Expense {
     amount: number;
     date?: Date;
     category?: ExpenseCategory;
-    variable?: boolean;
-    schedule?: ExpenseSchedule;
     paymentMethod?: PaymentMethod;
     selected?: boolean;
     hide?: boolean;

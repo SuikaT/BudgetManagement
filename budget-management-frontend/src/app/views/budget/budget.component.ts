@@ -1,11 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, inject } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { BudgetItemListComponent } from "./budget-item-list/budget-item-list.component";
+import { StoreService } from "../../services/store.service";
+import { CommonModule } from "@angular/common";
 
 @Component({
-  selector: 'app-budget',
-  imports: [],
-  templateUrl: './budget.component.html',
-  styleUrl: './budget.component.scss'
+    selector: "app-budget",
+    imports: [MatButtonModule, MatIconModule, BudgetItemListComponent, CommonModule],
+    templateUrl: "./budget.component.html",
+    styleUrl: "./budget.component.scss",
 })
 export class BudgetComponent {
+    public _store = inject(StoreService);
 
+    openAddBudgetItem() {}
 }

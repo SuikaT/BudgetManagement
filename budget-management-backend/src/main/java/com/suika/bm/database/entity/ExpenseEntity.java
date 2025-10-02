@@ -35,11 +35,6 @@ public class ExpenseEntity {
     @Column(name = "payment_method")
     PaymentMethod paymentMethod;
 
-    @Enumerated(EnumType.STRING)
-    ExpenseSchedule schedule;
-
-    boolean variable;
-
     boolean hide;
 
     @ManyToOne(fetch = FetchType.LAZY) // LAZY is usually better than EAGER
