@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Group by</h2>
+<mat-dialog-content>
+    <mat-radio-group>
+        @for (element of availableStrategy; track element) {
+            <mat-radio-button [value]="element.strategy">{{ element.label }}</mat-radio-button>
+        }
+    </mat-radio-group>
+</mat-dialog-content>

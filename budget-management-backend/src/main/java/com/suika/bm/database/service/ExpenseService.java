@@ -9,10 +9,12 @@ import com.suika.bm.database.repository.ExpenseRepository;
 import com.suika.bm.database.repository.UserRepository;
 import com.suika.bm.model.enums.ExpenseCategory;
 import com.suika.bm.model.product.Expense;
+import com.suika.bm.model.product.ExpenseDateRange;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -24,22 +26,23 @@ public class ExpenseService {
     private final ExpenseMapper expenseMapper;
 
     @Transactional
-    public List<Expense> getExpensesByUserId(Long userId) {
+    public List<Expense> getExpensesByUserIdAndInDateRange(Long userId, LocalDate startDate, LocalDate endDate) {
+        if(endDate == null || startDate == null) {
+            throw new IllegalArgumentException("startDate or endDate is null");
+        }
+
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
 
-        return expenseRepository.findAllByUser(user)
+        return expenseRepository.findAllByUserAndDateBetween(user, startDate, endDate)
                 .stream()
                 .map(expenseMapper::toDto)
                 .toList();
     }
 
     @Transactional
-    public List<Expense> getExpensesByCategory(ExpenseCategory category) {
-       return expenseRepository.findAllByCategory(category)
-               .stream()
-               .map(expenseMapper::toDto)
-               .toList();
+    public ExpenseDateRange getExpensesDateRangeByUser(Long userId) {
+       return expenseRepository.findDateRangeByUserId(userId);
     }
 
     @Transactional

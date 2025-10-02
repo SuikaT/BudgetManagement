@@ -6,18 +6,22 @@ import com.suika.bm.database.entity.UserEntity;
 import com.suika.bm.database.service.ExpenseService;
 import com.suika.bm.database.service.UserService;
 import com.suika.bm.exception.ExpenseNotFoundException;
+import com.suika.bm.exception.ResourceNotFoundException;
 import com.suika.bm.exception.UserNotFoundException;
 import com.suika.bm.model.enums.ExpenseCategory;
 import com.suika.bm.model.network.User;
 import com.suika.bm.model.product.Expense;
+import com.suika.bm.model.product.ExpenseDateRange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -31,19 +35,6 @@ public class Controller {
 
     @Autowired
     private ExpenseService expenseService;
-
-    @GetMapping("/test")
-    public UserEntity test() {
-        UserEntity user = new UserEntity();
-
-        user.setId(2L);
-        user.setEmail("test");
-        user.setFirstname("test");
-        user.setLastname("test");
-
-
-        return user;
-    }
 
     @GetMapping("/userById")
     public ResponseEntity<User> getUserById(@RequestParam Long id) {
@@ -60,12 +51,25 @@ public class Controller {
     }
 
     @GetMapping("/expenses/{userId}")
-    public ResponseEntity<List<Expense>> getExpenses(@PathVariable Long userId) {
+    public ResponseEntity<List<Expense>> getExpenses(@PathVariable Long userId, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
         try {
-            List<Expense> expenseList = expenseService.getExpensesByUserId(userId);
+            List<Expense> expenseList = expenseService.getExpensesByUserIdAndInDateRange(userId, startDate, endDate);
 
             return ResponseEntity.ok(expenseList);
-        } catch (UserNotFoundException e) {
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();  // 404
+        } catch(Exception e) {
+            return ResponseEntity.internalServerError().build(); // 500
+        }
+    }
+
+    @GetMapping("/expenses/{userId}/dateRange")
+    public ResponseEntity<ExpenseDateRange> getExpensesDateRange(@PathVariable Long userId) {
+        try {
+            ExpenseDateRange dateRange = expenseService.getExpensesDateRangeByUser(userId);
+
+            return ResponseEntity.ok(dateRange);
+        } catch (ResourceNotFoundException e) {
             return ResponseEntity.notFound().build();  // 404
         } catch(Exception e) {
             return ResponseEntity.internalServerError().build(); // 500
@@ -78,7 +82,7 @@ public class Controller {
             Expense savedExpense = expenseService.addExpense(expense, userId);
 
             return ResponseEntity.ok(savedExpense);
-        } catch (UserNotFoundException e) {
+        } catch (ResourceNotFoundException e) {
             return ResponseEntity.notFound().build();  // 404
         } catch(Exception e) {
             return ResponseEntity.internalServerError().build(); // 500

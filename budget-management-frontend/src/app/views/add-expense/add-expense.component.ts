@@ -7,6 +7,7 @@ import { StatesService } from "../../services/states.service";
 import { PersistenceService } from "../../services/persistence.service";
 import { NotificationService } from "../../services/notification.service";
 import { AuthService } from "../../services/auth.service";
+import { ExpensesService } from "../expenses/expenses.service";
 
 @Component({
     selector: "app-add-expense",
@@ -21,6 +22,7 @@ export class AddExpenseComponent {
         private _persistence: PersistenceService,
         private _notification: NotificationService,
         private _user: AuthService,
+        private _expense: ExpensesService,
     ) {}
 
     onAdd(expense: Expense) {
@@ -36,9 +38,7 @@ export class AddExpenseComponent {
                 next: (savedExpense) => {
                     if (savedExpense) {
                         // retrieve current expense list
-                        const currentExpenses = this._store.expenses$.getValue();
-                        // add expense to the store with the updated list
-                        this._store.expenses$.next([...currentExpenses, savedExpense]);
+                        this.actualizeStore(savedExpense);
                         // notify user
                         this._notification.showSuccess("Expense successfully added.");
                         // navigate back to expense page
@@ -51,6 +51,16 @@ export class AddExpenseComponent {
                     this._notification.showError("An error occurred, expense could not be added.");
                 },
             });
+        }
+    }
+
+    private actualizeStore(savedExpense: Expense) {
+        // do not' add an expense outside of the selected date range in the store
+        if (savedExpense.date >= this._expense.filterDateRange.start && savedExpense.date <= this._expense.filterDateRange.end) {
+            // retrieve actual expenses
+            const currentExpenses = this._store.expenses$.getValue();
+            // add expense to the store with the updated list
+            this._store.expenses$.next([...currentExpenses, savedExpense]);
         }
     }
 }

@@ -4,7 +4,7 @@ public enum ExpenseSchedule {
     UNDEFINED,
     DAILY,
     WEEKLY,
-    BIMONTHLY,
+    SEMI_MONTHLY,
     MONTHLY,
     BIMESTRIAL,
     QUARTERLY,

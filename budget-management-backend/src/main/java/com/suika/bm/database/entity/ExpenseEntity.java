@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -25,7 +26,7 @@ public class ExpenseEntity {
 
     float amount;
 
-    LocalDateTime date;
+    LocalDate date;
 
     @Enumerated(EnumType.STRING)
     ExpenseCategory category;

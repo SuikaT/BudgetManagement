@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -22,7 +23,7 @@ public class Expense {
 
     float amount;
 
-    LocalDateTime date;
+    LocalDate date;
 
     ExpenseCategory category;
 

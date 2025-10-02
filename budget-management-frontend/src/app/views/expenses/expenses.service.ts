@@ -1,6 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Expense } from "../../model/interfaces/expense";
 import { StoreService } from "../../services/store.service";
+import { DateRange } from "../../model/interfaces/DateRange";
+import { ExpenseSchedule } from "../../model/enums/expenseSchedule";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
     providedIn: "root",
@@ -11,7 +14,22 @@ export class ExpensesService {
     selectedExpenses: Expense[] = [];
     selectionMod: boolean = false;
 
+    filterDateRange$ = new BehaviorSubject<DateRange>({
+        start: this.getFirstDayOfMonth(new Date()),
+        end: this.getLastDayOfMonth(new Date()),
+    });
+
+    groupingStrategy: ExpenseSchedule = ExpenseSchedule.MONTHLY;
+
     constructor(private _store: StoreService) {}
+
+    getFirstDayOfMonth(date: Date): Date {
+        return new Date(date.getFullYear(), date.getMonth(), 1);
+    }
+
+    getLastDayOfMonth(date: Date): Date {
+        return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    }
 
     removeExpense(expenseId: number) {
         if (expenseId) {
@@ -70,5 +88,9 @@ export class ExpensesService {
         this.selectedExpenses.forEach((e) => (e.selected = false));
         // empty array
         this.selectedExpenses = [];
+    }
+
+    get filterDateRange(): DateRange {
+        return this.filterDateRange$.getValue();
     }
 }

@@ -31,6 +31,8 @@ export class AppComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
+        console.log(new Date(new Date().getFullYear(), 32, 1));
+
         this._theme.initTheme();
 
         this.sub = this.router.events.pipe(filter((e) => e instanceof RoutesRecognized)).subscribe((event) => {

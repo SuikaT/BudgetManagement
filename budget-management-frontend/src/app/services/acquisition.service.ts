@@ -20,14 +20,14 @@ export class AcquisitionService {
     private initializeDataAcquisition() {
         this._auth.currentUser$
             .pipe(
-                filter((user) => user !== undefined && user !== null), // Only proceed when user exists
+                filter((user) => !!user), // Only proceed when user exists
                 switchMap((user) => {
-                    return this._persistence.getExpenses(user.id);
+                    return this._persistence.getExpensesDateRange(user.id);
                 }),
             )
             .subscribe({
                 next: (expenses) => {
-                    this._store.expenses$.next(expenses);
+                    this._store.expensesDateRange$.next(expenses);
                 },
                 error: (error) => {
                     console.error("Error loading data:", error);

@@ -7,4 +7,8 @@ import { User } from "../model/interfaces/user";
 })
 export class AuthService {
     currentUser$ = new BehaviorSubject<User | undefined>(undefined);
+
+    get currentUser(): User | undefined {
+        return this.currentUser$.getValue();
+    }
 }
