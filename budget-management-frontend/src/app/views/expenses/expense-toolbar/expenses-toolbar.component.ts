@@ -6,6 +6,9 @@ import { DateRange } from "../../../model/interfaces/DateRange";
 import { ExpenseSchedule } from "../../../model/enums/expenseSchedule";
 import { ExpensesService } from "../expenses.service";
 import { StoreService } from "../../../services/store.service";
+import { MatDialog } from "@angular/material/dialog";
+import { GroupByDialogComponent } from "./group-by-dialog/group-by-dialog.component";
+import { combineLatest } from "rxjs";
 
 @Component({
     selector: "app-expenses-toolbar",
@@ -17,6 +20,7 @@ import { StoreService } from "../../../services/store.service";
 export class ExpensesToolbarComponent implements OnInit {
     private _expense = inject(ExpensesService);
     private _store = inject(StoreService);
+    private dialog = inject(MatDialog);
 
     menuItems: { label: string; dateRange: DateRange }[] = [];
 
@@ -25,16 +29,21 @@ export class ExpensesToolbarComponent implements OnInit {
     OnSelectionChange = new EventEmitter<DateRange>();
 
     ngOnInit(): void {
-        this._store.expensesDateRange$.subscribe((dateRange) => {
+        // refresh menu on full date range or grouping strategy change
+        combineLatest([this._store.expensesDateRange$, this._expense.groupingStrategy$]).subscribe(([dateRange]) => {
             if (dateRange) {
                 this.refreshMenuItems(dateRange);
+
+                console.log(dateRange);
+                if (this.menuItems.length > 0) {
+                    // update filterDateRange
+                    this.select(this.menuItems[0], 0);
+                }
             }
         });
     }
 
     refreshMenuItems(dateRange: DateRange) {
-        console.log(dateRange);
-
         switch (this._expense.groupingStrategy) {
             case ExpenseSchedule.WEEKLY:
                 this.menuItems = [];
@@ -131,13 +140,15 @@ export class ExpensesToolbarComponent implements OnInit {
         return years * 12 + months;
     }
 
-    onSelect(dateRange: DateRange, index: number) {
+    select(item: { label: string; dateRange: DateRange }, index: number) {
         this.selectedIndex = index;
 
-        this._expense.filterDateRange$.next(dateRange);
+        this._expense.filterDateRange$.next(item.dateRange);
     }
 
     onDateParameterClick(): void {
-        //TODO regroup my month / 3 month / 6 month / 1 year
+        this.dialog.open(GroupByDialogComponent, {
+            width: "90%",
+        });
     }
 }

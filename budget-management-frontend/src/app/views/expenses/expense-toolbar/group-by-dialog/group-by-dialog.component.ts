@@ -2,14 +2,17 @@ import { Component, inject } from "@angular/core";
 import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import { MatRadioModule } from "@angular/material/radio";
 import { ExpenseSchedule } from "../../../../model/enums/expenseSchedule";
+import { ExpensesService } from "../../expenses.service";
+import { FormsModule } from "@angular/forms";
 
 @Component({
     selector: "app-group-by-dialog",
-    imports: [MatDialogModule, MatRadioModule],
+    imports: [MatDialogModule, MatRadioModule, FormsModule],
     templateUrl: "./group-by-dialog.component.html",
     styleUrl: "./group-by-dialog.component.scss",
 })
 export class GroupByDialogComponent {
+    public _expense = inject(ExpensesService);
     readonly dialogRef = inject(MatDialogRef<GroupByDialogComponent>);
 
     availableStrategy: { label: string; strategy: ExpenseSchedule }[] = [

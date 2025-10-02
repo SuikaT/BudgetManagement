@@ -1,6 +1,6 @@
 <div class="menu-items">
     @for (item of menuItems; track item; let i = $index) {
-        <app-menu-button [label]="item.label" [selected]="selectedIndex == i" (onSelect)="onSelect(item.dateRange, i)"></app-menu-button>
+        <app-menu-button [label]="item.label" [selected]="selectedIndex == i" (onSelect)="select(item, i)"></app-menu-button>
     }
 </div>
 <div class="parameter">

@@ -1,6 +1,6 @@
-<h2 mat-dialog-title>Group by</h2>
+<h2 class="title" mat-dialog-title>Group by</h2>
 <mat-dialog-content>
-    <mat-radio-group>
+    <mat-radio-group [(ngModel)]="_expense.groupingStrategy" (change)="this.dialogRef.close()">
         @for (element of availableStrategy; track element) {
             <mat-radio-button [value]="element.strategy">{{ element.label }}</mat-radio-button>
         }

@@ -42,7 +42,14 @@ public class ExpenseService {
 
     @Transactional
     public ExpenseDateRange getExpensesDateRangeByUser(Long userId) {
-       return expenseRepository.findDateRangeByUserId(userId);
+        ExpenseDateRange dateRange = expenseRepository.findDateRangeByUserId(userId);
+
+        // If either start or end is null, return a default record
+        if(dateRange.start() == null || dateRange.end() == null) {
+            dateRange = new ExpenseDateRange(LocalDate.now(), LocalDate.now());
+        }
+
+        return dateRange;
     }
 
     @Transactional

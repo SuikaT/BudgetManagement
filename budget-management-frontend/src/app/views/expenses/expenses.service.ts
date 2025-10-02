@@ -19,7 +19,7 @@ export class ExpensesService {
         end: this.getLastDayOfMonth(new Date()),
     });
 
-    groupingStrategy: ExpenseSchedule = ExpenseSchedule.MONTHLY;
+    groupingStrategy$ = new BehaviorSubject<ExpenseSchedule>(ExpenseSchedule.MONTHLY);
 
     constructor(private _store: StoreService) {}
 
@@ -92,5 +92,13 @@ export class ExpensesService {
 
     get filterDateRange(): DateRange {
         return this.filterDateRange$.getValue();
+    }
+
+    get groupingStrategy(): ExpenseSchedule {
+        return this.groupingStrategy$.getValue();
+    }
+
+    set groupingStrategy(value: ExpenseSchedule) {
+        this.groupingStrategy$.next(value);
     }
 }
