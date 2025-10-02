@@ -23,7 +23,6 @@ public class UserService {
                 .map(userMapper::toDto);
     }
 
-    @Transactional
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .map(userMapper::toDto);

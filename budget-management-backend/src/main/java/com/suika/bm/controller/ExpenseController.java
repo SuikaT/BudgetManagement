@@ -19,32 +19,15 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api")
-public class Controller {
+@RequestMapping("/expenses")
+public class ExpenseController {
 
-    private Logger logger = LoggerFactory.getLogger(Controller.class);
-
-    @Autowired
-    private UserService userService;
+    private Logger logger = LoggerFactory.getLogger(ExpenseController.class);
 
     @Autowired
     private ExpenseService expenseService;
 
-    @GetMapping("/userById")
-    public ResponseEntity<User> getUserById(@RequestParam Long id) {
-        return userService.getUserById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/userByEmail")
-    public ResponseEntity<User> getUserByEmail(@RequestParam String email) {
-        return userService.getUserByEmail(email)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/expenses/{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<List<Expense>> getExpenses(@PathVariable Long userId, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
         try {
             List<Expense> expenseList = expenseService.getExpensesByUserIdAndInDateRange(userId, startDate, endDate);
@@ -57,7 +40,7 @@ public class Controller {
         }
     }
 
-    @GetMapping("/expenses/{userId}/dateRange")
+    @GetMapping("/{userId}/dateRange")
     public ResponseEntity<ExpenseDateRange> getExpensesDateRange(@PathVariable Long userId) {
         try {
             ExpenseDateRange dateRange = expenseService.getExpensesDateRangeByUser(userId);
@@ -70,7 +53,7 @@ public class Controller {
         }
     }
 
-    @PostMapping("/expenses/{userId}")
+    @PostMapping("/{userId}")
     public ResponseEntity<Expense> addExpense(@RequestBody Expense expense, @PathVariable Long userId) {
         try {
             Expense savedExpense = expenseService.addExpense(expense, userId);
@@ -83,7 +66,7 @@ public class Controller {
         }
     }
 
-    @DeleteMapping("/expenses")
+    @DeleteMapping()
     public ResponseEntity<Void> deleteExpenses(@RequestBody List<Long> expenseIds) {
         try {
             expenseService.deleteExpenseByIds(expenseIds);
@@ -94,7 +77,7 @@ public class Controller {
         }
     }
 
-    @PutMapping("/expenses")
+    @PutMapping()
     public ResponseEntity<Expense> deleteExpense(@RequestBody Expense expense) {
         try {
             Expense updatedExpense = expenseService.updateExpense(expense);
