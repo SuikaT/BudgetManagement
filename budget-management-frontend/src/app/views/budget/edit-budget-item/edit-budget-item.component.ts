@@ -6,6 +6,7 @@ import { StoreService } from "../../../services/store.service";
 import { ExpensesService } from "../../expenses/expenses.service";
 import { StatesService } from "../../../services/states.service";
 import { BudgetFormComponent } from "../../../components/budget-form/budget-form.component";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
     selector: "app-edit-budget-item",
@@ -22,6 +23,7 @@ export class EditBudgetItemComponent {
         private _store: StoreService,
         private _expense: ExpensesService,
         private _states: StatesService,
+        private route: ActivatedRoute,
     ) {}
 
     ngOnInit(): void {
@@ -29,9 +31,15 @@ export class EditBudgetItemComponent {
             // navigate back to expenses
             this._states.triggerReturn$.next();
         }
-        const index = 0;
 
-        this.budgetItem = structuredClone(this._store.budgetItems[index]);
+        this.route.paramMap.subscribe((params) => {
+            // retrieve id from url params
+            const id = params.get("id");
+            if (id) {
+                const foundBudgetItem = this._store.budgetItems.find((b) => b.id == Number(id));
+                this.budgetItem = foundBudgetItem ? structuredClone(foundBudgetItem) : undefined;
+            }
+        });
     }
 
     onApply(budgetItem: BudgetItem): void {

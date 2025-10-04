@@ -14,6 +14,8 @@ import { BudgetItem } from "../model/interfaces/budgetItem";
 export class PersistenceService {
     constructor(private http: HttpClient) {}
 
+    /* EXPENSES */
+
     getExpensesDateRange(userId: number): Observable<DateRange> {
         return this.http.get<{ start: string; end: string }>(`${environment.apiUrl}/expenses/${userId}/dateRange`).pipe(
             first(),
@@ -41,6 +43,12 @@ export class PersistenceService {
 
     updateExpense(expense: Expense): Observable<Expense> {
         return this.http.put<Expense>(`${environment.apiUrl}/expenses`, expense).pipe(first());
+    }
+
+    /* BUDGET ITEMS */
+
+    getBudgetItems(userId: number): Observable<BudgetItem[]> {
+        return this.http.get<BudgetItem[]>(`${environment.apiUrl}/budget/budgetItems/${userId}`).pipe(first());
     }
 
     addBudgetItem(budgetItem: BudgetItem, userId: number): Observable<BudgetItem> {

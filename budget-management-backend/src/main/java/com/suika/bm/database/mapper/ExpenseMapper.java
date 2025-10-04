@@ -32,6 +32,7 @@ public class ExpenseMapper {
         dto.setCategory(entity.getCategory());
         dto.setPaymentMethod(entity.getPaymentMethod());
         dto.setHide(entity.isHide());
+        dto.setRelatedBudgetItemId(entity.getRelatedBudgetItem() != null ? entity.getRelatedBudgetItem().getId() : 0);
         return dto;
     }
 

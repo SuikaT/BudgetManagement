@@ -7,4 +7,5 @@ export interface ExpenseForm {
     category: FormControl<string | null>;
     paymentMethod: FormControl<string | null>;
     hide: FormControl<boolean | null>;
+    relatedBudgetItemId: FormControl<number | null>;
 }

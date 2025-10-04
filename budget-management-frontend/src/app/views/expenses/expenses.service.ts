@@ -39,21 +39,6 @@ export class ExpensesService {
 
             this.expensesByCategories = this.buildExpensesByCategories(expenses);
         });
-
-        // retrieve expenses on date range selection change
-        this.filterDateRange$.subscribe((dateRange) => {
-            const user = this._auth.currentUser;
-            if (user) {
-                this._persistence.getExpenses(user.id, dateRange).subscribe({
-                    next: (expenses) => {
-                        this._store.expenses$.next(expenses);
-                    },
-                    error: (error) => {
-                        console.error("Error loading data:", error);
-                    },
-                });
-            }
-        });
     }
 
     buildExpensesByCategories(expenses: Expense[]): Expense[] {

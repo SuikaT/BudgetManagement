@@ -1,3 +1,8 @@
-<div class="category">{{ budgetItem?.category }}</div>
-<div class="label">{{ budgetItem?.label }}</div>
-<div class="amount">{{ budgetItem?.targetAmount + " €" }}</div>
+<div class="category">{{ budgetItem.category }}</div>
+<div class="content">
+    <div class="description">
+        <div>{{ budgetItem.label }}</div>
+        <div class="label">{{ budgetItem.targetAmount + " €" }}</div>
+    </div>
+    <app-budget-progress [budgetItem]="budgetItem"></app-budget-progress>
+</div>

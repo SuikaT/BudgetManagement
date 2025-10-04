@@ -1,0 +1,23 @@
+:host {
+    width: 100%;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.label {
+    text-wrap: nowrap;
+}
+
+.bar {
+    background: grey;
+    flex: 1;
+    height: 0.5rem;
+    border-radius: 10px;
+
+    .filled {
+        background: var(--mat-sys-primary);
+        height: 100%;
+        border-radius: 10px;
+    }
+}

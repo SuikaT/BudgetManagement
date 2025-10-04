@@ -3,9 +3,9 @@
     height: 3rem;
     flex-shrink: 0;
     padding: 1rem;
+    position: relative;
 
     display: flex;
-    align-items: center;
     gap: 1rem;
 
     background: var(--mat-sys-surface-variant);
@@ -13,12 +13,19 @@
 
 .category {
     min-width: 3rem;
+    align-self: center;
 }
 
-.label {
+.content {
     flex: 1;
-}
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
 
-.amount {
-    text-wrap: nowrap;
+    .description {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
 }

@@ -35,7 +35,7 @@ public class BudgetController {
         }
     }
 
-    @PostMapping("budgetItems//{userId}")
+    @PostMapping("budgetItems/{userId}")
     public ResponseEntity<BudgetItem> addExpense(@RequestBody BudgetItem budgetItem, @PathVariable Long userId) {
         try {
             BudgetItem savedBudgetItem = budgetService.addBudgetItem(budgetItem, userId);

@@ -11,6 +11,8 @@ import { PaymentMethod } from "../../model/enums/PaymentMethod";
 import { ExpenseCategory } from "../../model/enums/expenseCategory";
 import { Expense } from "../../model/interfaces/expense";
 import { MatCheckbox } from "@angular/material/checkbox";
+import { BudgetItem } from "../../model/interfaces/budgetItem";
+import { StoreService } from "../../services/store.service";
 
 @Component({
     selector: "app-expense-form",
@@ -36,7 +38,12 @@ export class ExpenseFormComponent implements OnInit {
     @Output()
     onSubmit = new EventEmitter<Expense>();
 
-    constructor(private fb: FormBuilder) {}
+    constructor(
+        private fb: FormBuilder,
+        private _store: StoreService,
+    ) {}
+
+    budgetItems: BudgetItem[] = [];
 
     ngOnInit(): void {
         this.expenseForm = this.fb.group<ExpenseForm>({
@@ -46,7 +53,16 @@ export class ExpenseFormComponent implements OnInit {
             category: this.fb.control(this.expense?.category ?? ExpenseCategory.GROCERY, { validators: [Validators.required] }),
             paymentMethod: this.fb.control(this.expense?.paymentMethod ?? PaymentMethod.BANK_CARD, { validators: [Validators.required] }),
             hide: this.fb.control(this.expense?.hide ?? false),
+            relatedBudgetItemId: this.fb.control(this.expense?.relatedBudgetItemId ?? 0, { validators: [Validators.required] }),
         });
+
+        this.expenseForm.get("category")?.valueChanges.subscribe((category) => {
+            const relatedBudget = this.budgetItems.find((b) => b.category == category);
+            // set as related budget the first budget item found of the same category
+            this.expenseForm.get("relatedBudgetItemId")?.setValue(relatedBudget ? relatedBudget.id : 0);
+        });
+
+        this._store.budgetItems$.subscribe((b) => (this.budgetItems = b));
     }
 
     submitClick() {
@@ -68,6 +84,7 @@ export class ExpenseFormComponent implements OnInit {
             paymentMethod: formValue.paymentMethod as PaymentMethod,
             category: formValue.category as ExpenseCategory,
             hide: formValue.hide,
+            relatedBudgetItemId: formValue.relatedBudgetItemId,
         };
     }
 }

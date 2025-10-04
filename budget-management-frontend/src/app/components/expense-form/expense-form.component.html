@@ -54,6 +54,17 @@
         }
     </mat-form-field>
 
+    <!-- Related Budget Item -->
+    <mat-form-field appearance="outline">
+        <mat-label>Related budget item</mat-label>
+        <mat-select formControlName="relatedBudgetItemId" [value]="expenseForm.get('relatedBudgetItemId')?.value">
+            <mat-option [value]="0">None</mat-option>
+            @for (item of budgetItems; track item) {
+                <mat-option [value]="item.id">{{ item.category }}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+
     <mat-checkbox formControlName="hide">Hide</mat-checkbox>
 
     <!-- Submit -->

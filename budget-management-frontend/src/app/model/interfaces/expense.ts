@@ -10,4 +10,5 @@ export interface Expense {
     paymentMethod?: PaymentMethod;
     selected?: boolean;
     hide?: boolean;
+    relatedBudgetItemId?: number;
 }

@@ -37,7 +37,11 @@ public class ExpenseEntity {
 
     boolean hide;
 
-    @ManyToOne(fetch = FetchType.LAZY) // LAZY is usually better than EAGER
-    @JoinColumn(name = "user_id", nullable = false) // FK column in expense table
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "budget_item_id", nullable = true)
+    private BudgetItemEntity relatedBudgetItem;
 }

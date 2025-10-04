@@ -1,5 +1,8 @@
 package com.suika.bm.database.service;
 
+import com.suika.bm.database.entity.BudgetItemEntity;
+import com.suika.bm.database.repository.BudgetItemRepository;
+import com.suika.bm.exception.BudgetItemNotFoundException;
 import com.suika.bm.exception.ExpenseNotFoundException;
 import com.suika.bm.exception.UserNotFoundException;
 import com.suika.bm.database.entity.ExpenseEntity;
@@ -23,6 +26,7 @@ public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
     private final UserRepository userRepository;
+    private final BudgetItemRepository budgetItemRepository;
     private final ExpenseMapper expenseMapper;
 
     @Transactional
@@ -53,12 +57,21 @@ public class ExpenseService {
     }
 
     @Transactional
-    public Expense addExpense( Expense expense, Long userId) {
+    public Expense addExpense(Expense expense, Long userId) {
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
 
         ExpenseEntity expenseEntity = expenseMapper.toEntity(expense);
         expenseEntity.setUser(user);
+
+        Long relatedBudgetItemId = expense.getRelatedBudgetItemId();
+        if(relatedBudgetItemId != null && relatedBudgetItemId != 0) {
+            // find related budget item entity
+            BudgetItemEntity budgetItemEntity = budgetItemRepository.findById(relatedBudgetItemId)
+                    .orElseThrow(() -> new BudgetItemNotFoundException(relatedBudgetItemId));
+
+            expenseEntity.setRelatedBudgetItem(budgetItemEntity);
+        }
 
         ExpenseEntity savedExpenseEntity = expenseRepository.save(expenseEntity);
 
@@ -84,6 +97,17 @@ public class ExpenseService {
                 .orElseThrow(() -> new ExpenseNotFoundException(expense.getId()));
 
         expenseMapper.updateEntityFromDto(entityToUpdate, expense);
+
+        Long relatedBudgetItemId = expense.getRelatedBudgetItemId();
+        if(relatedBudgetItemId != null && relatedBudgetItemId != 0) {
+            // find related budget item entity
+            BudgetItemEntity budgetItemEntity = budgetItemRepository.findById(relatedBudgetItemId)
+                    .orElseThrow(() -> new BudgetItemNotFoundException(relatedBudgetItemId));
+
+            entityToUpdate.setRelatedBudgetItem(budgetItemEntity);
+        } else {
+            entityToUpdate.setRelatedBudgetItem(null);
+        }
 
         ExpenseEntity updatedEntity = expenseRepository.save(entityToUpdate);
 
