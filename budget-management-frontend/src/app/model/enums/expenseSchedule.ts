@@ -1,4 +1,5 @@
 export enum ExpenseSchedule {
+    UNDEFINED = "UNDEFINED",
     DAILY = "DAILY",
     WEEKLY = "WEEKLY",
     SEMI_MONTHLY = "SEMI_MONTHLY",

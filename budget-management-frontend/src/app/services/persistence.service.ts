@@ -6,6 +6,7 @@ import { first } from "rxjs/internal/operators/first";
 import { map, Observable } from "rxjs";
 import { formatDate } from "@angular/common";
 import { DateRange } from "../model/interfaces/DateRange";
+import { BudgetItem } from "../model/interfaces/budgetItem";
 
 @Injectable({
     providedIn: "root",
@@ -40,5 +41,17 @@ export class PersistenceService {
 
     updateExpense(expense: Expense): Observable<Expense> {
         return this.http.put<Expense>(`${environment.apiUrl}/expenses`, expense).pipe(first());
+    }
+
+    addBudgetItem(budgetItem: BudgetItem, userId: number): Observable<BudgetItem> {
+        return this.http.post<BudgetItem>(`${environment.apiUrl}/budget/budgetItems/${userId}`, budgetItem).pipe(first());
+    }
+
+    deleteBudgetItems(budgetItems: BudgetItem[]): Observable<void> {
+        return this.http.delete<void>(`${environment.apiUrl}/budget/budgetItems`, { body: budgetItems.map((e) => e.id) }).pipe(first());
+    }
+
+    updateBudgetItem(budgetItem: BudgetItem): Observable<BudgetItem> {
+        return this.http.put<BudgetItem>(`${environment.apiUrl}/budget/budgetItems`, budgetItem).pipe(first());
     }
 }

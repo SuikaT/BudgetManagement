@@ -11,6 +11,10 @@ import { PaymentMethod } from "../../model/enums/PaymentMethod";
 import { ExpenseCategory } from "../../model/enums/expenseCategory";
 import { Expense } from "../../model/interfaces/expense";
 import { MatCheckbox } from "@angular/material/checkbox";
+import { BudgetItem } from "../../model/interfaces/budgetItem";
+import { BudgetForm } from "../../model/interfaces/budgetForm";
+import { scheduled } from "rxjs";
+import { ExpenseSchedule } from "../../model/enums/expenseSchedule";
 
 @Component({
     selector: "app-budget-form",
@@ -19,69 +23,62 @@ import { MatCheckbox } from "@angular/material/checkbox";
     styleUrl: "./budget-form.component.scss",
 })
 export class BudgetFormComponent implements OnInit {
-    expenseForm!: FormGroup;
+    budgetForm!: FormGroup;
 
     paymentMethodEnum = PaymentMethod;
-    paymentMethods: string[] = Object.values(PaymentMethod);
+    paymentMethods: string[] = Object.values(PaymentMethod).filter((s) => s != PaymentMethod.UNDEFINED);
 
     expenseCategoryEnum = ExpenseCategory;
     categories: string[] = Object.values(ExpenseCategory);
+
+    expenseScheduleEnum = ExpenseSchedule;
+    expenseSchedules: string[] = Object.values(ExpenseSchedule).filter((s) => s != ExpenseSchedule.UNDEFINED);
 
     @Input()
     submitLabel: string = "";
 
     @Input()
-    expense: Expense | undefined;
+    budgetItem: BudgetItem | undefined;
 
     @Output()
-    onSubmit = new EventEmitter<Expense>();
+    onSubmit = new EventEmitter<BudgetItem>();
 
     constructor(private fb: FormBuilder) {}
 
     ngOnInit(): void {
-        this.expenseForm = this.fb.group<ExpenseForm>({
-            label: this.fb.control(this.expense?.label ?? "Expense", { validators: [Validators.required] }),
-            amount: this.fb.control(this.expense?.amount ?? 0, { validators: [Validators.required] }),
-            date: this.fb.control(this.expense?.date ?? new Date(), { validators: [Validators.required] }),
-            category: this.fb.control(this.expense?.category ?? ExpenseCategory.GROCERY, { validators: [Validators.required] }),
-            paymentMethod: this.fb.control(this.expense?.paymentMethod ?? PaymentMethod.BANK_CARD, { validators: [Validators.required] }),
-            hide: this.fb.control(this.expense?.hide ?? false),
+        this.budgetForm = this.fb.group<BudgetForm>({
+            label: this.fb.control(this.budgetItem?.label ?? "Expense", { validators: [Validators.required] }),
+            targetAmount: this.fb.control(this.budgetItem?.targetAmount ?? 0, { validators: [Validators.required] }),
+            category: this.fb.control(this.budgetItem?.category ?? ExpenseCategory.GROCERY, { validators: [Validators.required] }),
+            isScheduled: this.fb.control(this.budgetItem?.schedule != ExpenseSchedule.UNDEFINED),
+            schedule: this.fb.control(this.budgetItem?.schedule ?? ExpenseSchedule.MONTHLY),
+            autoAddToExpenses: this.fb.control(this.budgetItem?.autoAddToExpenses ?? false),
+            paymentMethod: this.fb.control(this.budgetItem?.paymentMethod ?? PaymentMethod.BANK_CARD, { validators: [Validators.required] }),
+            date: this.fb.control(this.budgetItem?.date ?? new Date(), { validators: [Validators.required] }),
         });
     }
 
     submitClick() {
         // map form values into an Expense object
-        const expense = this.expense ? this.updateExpense() : this.expenseFormToExpense();
+        const budgetItem = this.budgetItem ? this.mapFormToBudgetItem(this.budgetItem) : this.mapFormToBudgetItem();
 
         // submit form
-        this.onSubmit.emit(expense);
+        this.onSubmit.emit(budgetItem);
     }
 
-    expenseFormToExpense(): Expense {
-        const formValue = this.expenseForm.getRawValue();
+    mapFormToBudgetItem(base?: BudgetItem): BudgetItem {
+        const formValue = this.budgetForm.getRawValue();
+        const autoAddToExpenses = formValue.isScheduled ? formValue.autoAddToExpenses : false;
 
         return {
+            ...(base ?? {}), // merge only if base provided
             label: formValue.label,
-            amount: Math.abs(formValue.amount),
-            date: formValue.date,
-            paymentMethod: formValue.paymentMethod as PaymentMethod,
+            targetAmount: Math.abs(formValue.targetAmount),
             category: formValue.category as ExpenseCategory,
-            selected: false,
-            hide: formValue.hide,
-        };
-    }
-
-    updateExpense(): Expense {
-        const formValue = this.expenseForm.getRawValue();
-
-        return {
-            ...this.expense!,
-            label: formValue.label,
-            amount: Math.abs(formValue.amount),
-            date: formValue.date,
-            paymentMethod: formValue.paymentMethod as PaymentMethod,
-            category: formValue.category as ExpenseCategory,
-            hide: formValue.hide,
+            schedule: formValue.isScheduled ? formValue.scheduled : ExpenseSchedule.UNDEFINED,
+            autoAddToExpenses: autoAddToExpenses,
+            paymentMethod: autoAddToExpenses ? (formValue.paymentMethod as PaymentMethod) : PaymentMethod.UNDEFINED,
+            date: autoAddToExpenses ? formValue.date : undefined,
         };
     }
 }

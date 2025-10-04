@@ -1,11 +1,12 @@
 import { FormControl } from "@angular/forms";
 
 export interface BudgetForm {
+    category: FormControl<string | null>;
     label: FormControl<string | null>;
     targetAmount: FormControl<number | null>;
-    category: FormControl<string | null>;
     isScheduled: FormControl<boolean | null>;
-    scheduled: FormControl<string | null>;
-    autoAdd: FormControl<boolean | null>;
+    schedule: FormControl<string | null>;
+    autoAddToExpenses: FormControl<boolean | null>;
+    paymentMethod: FormControl<string | null>;
     date: FormControl<Date | null>;
 }

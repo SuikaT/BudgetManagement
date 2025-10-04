@@ -22,7 +22,7 @@ export class ExpenseFormComponent implements OnInit {
     expenseForm!: FormGroup;
 
     paymentMethodEnum = PaymentMethod;
-    paymentMethods: string[] = Object.values(PaymentMethod);
+    paymentMethods: string[] = Object.values(PaymentMethod).filter((p) => p != PaymentMethod.UNDEFINED);
 
     expenseCategoryEnum = ExpenseCategory;
     categories: string[] = Object.values(ExpenseCategory);
@@ -51,31 +51,17 @@ export class ExpenseFormComponent implements OnInit {
 
     submitClick() {
         // map form values into an Expense object
-        const expense = this.expense ? this.updateExpense() : this.expenseFormToExpense();
+        const expense = this.expense ? this.mapFormToExpense(this.expense) : this.mapFormToExpense();
 
         // submit form
         this.onSubmit.emit(expense);
     }
 
-    expenseFormToExpense(): Expense {
+    mapFormToExpense(base?: Expense): Expense {
         const formValue = this.expenseForm.getRawValue();
 
         return {
-            label: formValue.label,
-            amount: Math.abs(formValue.amount),
-            date: formValue.date,
-            paymentMethod: formValue.paymentMethod as PaymentMethod,
-            category: formValue.category as ExpenseCategory,
-            selected: false,
-            hide: formValue.hide,
-        };
-    }
-
-    updateExpense(): Expense {
-        const formValue = this.expenseForm.getRawValue();
-
-        return {
-            ...this.expense!,
+            ...(base ?? {}),
             label: formValue.label,
             amount: Math.abs(formValue.amount),
             date: formValue.date,

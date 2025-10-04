@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `expense` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `label` varchar(250) DEFAULT NULL,
+  `label` varchar(255) DEFAULT NULL,
   `amount` DECIMAL(10,2) NOT NULL,
   `date` timestamp DEFAULT CURRENT_TIMESTAMP,
   `category` varchar(25) DEFAULT NULL,

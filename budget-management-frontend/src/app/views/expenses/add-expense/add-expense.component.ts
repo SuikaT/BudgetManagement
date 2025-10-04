@@ -1,13 +1,13 @@
 import { Component } from "@angular/core";
-import { ExpenseFormComponent } from "../../components/expense-form/expense-form.component";
-import { Expense } from "../../model/interfaces/expense";
-import { StoreService } from "../../services/store.service";
 import { Router } from "@angular/router";
-import { StatesService } from "../../services/states.service";
-import { PersistenceService } from "../../services/persistence.service";
-import { NotificationService } from "../../services/notification.service";
-import { AuthService } from "../../services/auth.service";
-import { ExpensesService } from "../expenses/expenses.service";
+import { ExpenseFormComponent } from "../../../components/expense-form/expense-form.component";
+import { StoreService } from "../../../services/store.service";
+import { StatesService } from "../../../services/states.service";
+import { PersistenceService } from "../../../services/persistence.service";
+import { NotificationService } from "../../../services/notification.service";
+import { AuthService } from "../../../services/auth.service";
+import { ExpensesService } from "../expenses.service";
+import { Expense } from "../../../model/interfaces/expense";
 
 @Component({
     selector: "app-add-expense",
@@ -37,7 +37,6 @@ export class AddExpenseComponent {
             this._persistence.addExpense(expense, user.id).subscribe({
                 next: (savedExpense) => {
                     if (savedExpense) {
-                        // retrieve current expense list
                         this.actualizeStore(savedExpense);
                         // notify user
                         this._notification.showSuccess("Expense successfully added.");

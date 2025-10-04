@@ -1,4 +1,4 @@
-<form [formGroup]="expenseForm" (ngSubmit)="submitClick()">
+<form [formGroup]="budgetForm" (ngSubmit)="submitClick()">
     <!-- Category -->
     <mat-form-field appearance="outline">
         <mat-label>Category</mat-label>
@@ -7,7 +7,7 @@
                 <mat-option [value]="c">{{ c }}</mat-option>
             }
         </mat-select>
-        @if (expenseForm.get("category")?.hasError("required")) {
+        @if (budgetForm.get("category")?.hasError("required")) {
             <mat-error> Category is required </mat-error>
         }
     </mat-form-field>
@@ -16,46 +16,67 @@
     <mat-form-field appearance="outline">
         <mat-label>Label</mat-label>
         <input matInput formControlName="label" placeholder="Enter expense label" />
-        @if (expenseForm.get("label")?.hasError("required")) {
+        @if (budgetForm.get("label")?.hasError("required")) {
             <mat-error> Label is required </mat-error>
         }
     </mat-form-field>
 
-    <!-- Amount -->
+    <!-- Target amount -->
     <mat-form-field appearance="outline">
-        <mat-label>Amount</mat-label>
-        <input matInput type="number" formControlName="amount" placeholder="Enter amount" />
-        @if (expenseForm.get("amount")?.hasError("required")) {
+        <mat-label>Target amount</mat-label>
+        <input matInput type="number" formControlName="targetAmount" placeholder="Enter amount" />
+        @if (budgetForm.get("targetAmount")?.hasError("required")) {
             <mat-error> Amount is required </mat-error>
         }
     </mat-form-field>
 
-    <!-- Date -->
-    <mat-form-field appearance="outline">
-        <mat-label>Date</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="date" />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-        @if (expenseForm.get("date")?.hasError("required")) {
-            <mat-error> Date is required </mat-error>
-        }
-    </mat-form-field>
+    <!-- IsScheduled -->
+    <mat-checkbox formControlName="isScheduled">Scheduled</mat-checkbox>
+
+    <!-- Scheduled -->
+    @if (budgetForm.get("isScheduled")?.value) {
+        <mat-form-field appearance="outline">
+            <mat-label>Schedule</mat-label>
+            <mat-select formControlName="schedule">
+                @for (e of expenseSchedules; track e) {
+                    <mat-option [value]="e">{{ e }}</mat-option>
+                }
+            </mat-select>
+            @if (budgetForm.get("schedule")?.hasError("required")) {
+                <mat-error> Expense schedule is required </mat-error>
+            }
+        </mat-form-field>
+    }
+
+    <!-- AutoAddtoExpense -->
+    <mat-checkbox formControlName="autoAddToExpenses">Auto add to expense</mat-checkbox>
 
     <!-- Payment Method -->
-    <mat-form-field appearance="outline">
-        <mat-label>Payment Method</mat-label>
-        <mat-select formControlName="paymentMethod">
-            @for (p of paymentMethods; track p) {
-                <mat-option [value]="p">{{ p }}</mat-option>
+    @if (budgetForm.get("autoAddToExpenses")?.value) {
+        <mat-form-field appearance="outline">
+            <mat-label>Payment Method</mat-label>
+            <mat-select formControlName="paymentMethod">
+                @for (p of paymentMethods; track p) {
+                    <mat-option [value]="p">{{ p }}</mat-option>
+                }
+            </mat-select>
+            @if (budgetForm.get("paymentMethod")?.hasError("required")) {
+                <mat-error> Payment method is required </mat-error>
             }
-        </mat-select>
-        @if (expenseForm.get("paymentMethod")?.hasError("required")) {
-            <mat-error> Payment method is required </mat-error>
-        }
-    </mat-form-field>
+        </mat-form-field>
 
-    <mat-checkbox formControlName="hide">Hide</mat-checkbox>
+        <!-- Date -->
+        <mat-form-field appearance="outline">
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="date" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            @if (budgetForm.get("date")?.hasError("required")) {
+                <mat-error> Date is required </mat-error>
+            }
+        </mat-form-field>
+    }
 
     <!-- Submit -->
-    <button mat-raised-button color="primary" type="submit" [disabled]="expenseForm.invalid" class="add-button">{{ submitLabel }}</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="budgetForm.invalid" class="add-button">{{ submitLabel }}</button>
 </form>

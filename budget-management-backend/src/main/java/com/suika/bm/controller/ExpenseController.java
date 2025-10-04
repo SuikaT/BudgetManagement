@@ -8,6 +8,7 @@ import com.suika.bm.exception.ResourceNotFoundException;
 import com.suika.bm.model.network.User;
 import com.suika.bm.model.product.Expense;
 import com.suika.bm.model.product.ExpenseDateRange;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,10 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("/expenses")
+@RequiredArgsConstructor
 public class ExpenseController {
 
-    private Logger logger = LoggerFactory.getLogger(ExpenseController.class);
-
-    @Autowired
-    private ExpenseService expenseService;
+    private final ExpenseService expenseService;
 
     @GetMapping("/{userId}")
     public ResponseEntity<List<Expense>> getExpenses(@PathVariable Long userId, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {

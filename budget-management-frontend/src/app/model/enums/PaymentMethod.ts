@@ -1,4 +1,5 @@
 export enum PaymentMethod {
+    UNDEFINED = "UNDEFINED",
     BANK_CARD = "BANK_CARD",
     CASH = "CASH",
     CHECK = "CHECK",
