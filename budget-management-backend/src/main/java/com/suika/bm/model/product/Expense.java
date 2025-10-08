@@ -30,4 +30,6 @@ public class Expense {
     boolean hide;
 
     Long relatedBudgetItemId;
+
+    boolean autoAdded;
 }

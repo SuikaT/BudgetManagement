@@ -16,7 +16,7 @@ export class StoreService {
 
     budgetItems$ = new BehaviorSubject<BudgetItem[]>([]);
 
-    get expense() {
+    get expenses() {
         return this.expenses$.getValue();
     }
 

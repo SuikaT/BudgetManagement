@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS expense (
   hide BOOLEAN DEFAULT FALSE,
   budget_item_id BIGINT DEFAULT NULL,
   user_id INT(11) NOT NULL,
+  auto_added BOOLEAN DEFAULT FALSE,
   PRIMARY KEY (id),
   CONSTRAINT fk_expense_budget_item FOREIGN KEY (budget_item_id) REFERENCES budget_item(id) ON DELETE CASCADE,
   CONSTRAINT fk_expense_user FOREIGN KEY (user_id) REFERENCES `user`(id) ON DELETE CASCADE

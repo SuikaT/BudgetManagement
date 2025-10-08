@@ -11,4 +11,5 @@ export interface Expense {
     selected?: boolean;
     hide?: boolean;
     relatedBudgetItemId?: number;
+    autoAdded?: boolean;
 }

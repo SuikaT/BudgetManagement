@@ -6,17 +6,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ExpenseMapper {
-    public ExpenseEntity toEntity(Expense expense) {
-        if (expense == null) return null;
+    public ExpenseEntity toEntity(Expense dto) {
+        if (dto == null) return null;
 
         ExpenseEntity entity = new ExpenseEntity();
-        entity.setId(expense.getId());
-        entity.setLabel(expense.getLabel());
-        entity.setAmount(expense.getAmount());
-        entity.setDate(expense.getDate());
-        entity.setCategory(expense.getCategory());
-        entity.setPaymentMethod(expense.getPaymentMethod());
-        entity.setHide(expense.isHide());
+        entity.setId(dto.getId());
+        entity.setLabel(dto.getLabel());
+        entity.setAmount(dto.getAmount());
+        entity.setDate(dto.getDate());
+        entity.setCategory(dto.getCategory());
+        entity.setPaymentMethod(dto.getPaymentMethod());
+        entity.setHide(dto.isHide());
+        entity.setAutoAdded(dto.isAutoAdded());
 
         return entity;
     }
@@ -33,19 +34,21 @@ public class ExpenseMapper {
         dto.setPaymentMethod(entity.getPaymentMethod());
         dto.setHide(entity.isHide());
         dto.setRelatedBudgetItemId(entity.getRelatedBudgetItem() != null ? entity.getRelatedBudgetItem().getId() : 0);
+        dto.setAutoAdded(entity.isAutoAdded());
         return dto;
     }
 
-    public void updateEntityFromDto(ExpenseEntity entity, Expense expense) {
-        if(entity == null || expense == null) {
+    public void updateEntityFromDto(ExpenseEntity entity, Expense dto) {
+        if(entity == null || dto == null) {
             return;
         }
 
-        entity.setLabel(expense.getLabel());
-        entity.setAmount(expense.getAmount());
-        entity.setDate(expense.getDate());
-        entity.setCategory(expense.getCategory());
-        entity.setPaymentMethod(expense.getPaymentMethod());
-        entity.setHide(expense.isHide());
+        entity.setLabel(dto.getLabel());
+        entity.setAmount(dto.getAmount());
+        entity.setDate(dto.getDate());
+        entity.setCategory(dto.getCategory());
+        entity.setPaymentMethod(dto.getPaymentMethod());
+        entity.setHide(dto.isHide());
+        entity.setAutoAdded(dto.isAutoAdded());
     }
 }

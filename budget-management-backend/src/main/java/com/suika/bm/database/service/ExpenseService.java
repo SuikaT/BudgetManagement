@@ -58,20 +58,23 @@ public class ExpenseService {
 
     @Transactional
     public Expense addExpense(Expense expense, Long userId) {
-        UserEntity user = userRepository.findById(userId)
+        UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
 
-        ExpenseEntity expenseEntity = expenseMapper.toEntity(expense);
-        expenseEntity.setUser(user);
-
         Long relatedBudgetItemId = expense.getRelatedBudgetItemId();
-        if(relatedBudgetItemId != null && relatedBudgetItemId != 0) {
-            // find related budget item entity
-            BudgetItemEntity budgetItemEntity = budgetItemRepository.findById(relatedBudgetItemId)
-                    .orElseThrow(() -> new BudgetItemNotFoundException(relatedBudgetItemId));
+        // find related budget item entity
+        BudgetItemEntity budgetItemEntity = relatedBudgetItemId != null && relatedBudgetItemId != 0 ?
+                budgetItemRepository.findById(relatedBudgetItemId).orElseThrow(() -> new BudgetItemNotFoundException(relatedBudgetItemId))
+                : null;
 
-            expenseEntity.setRelatedBudgetItem(budgetItemEntity);
-        }
+        return addExpense(expense, userEntity, budgetItemEntity);
+    }
+
+    @Transactional
+    public Expense addExpense(Expense expense, UserEntity userEntity, BudgetItemEntity budgetItemEntity) {
+        ExpenseEntity expenseEntity = expenseMapper.toEntity(expense);
+        expenseEntity.setUser(userEntity);
+        expenseEntity.setRelatedBudgetItem(budgetItemEntity);
 
         ExpenseEntity savedExpenseEntity = expenseRepository.save(expenseEntity);
 

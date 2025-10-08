@@ -58,17 +58,14 @@ export class AcquisitionService {
         combineLatest([this._auth.currentUser$, this._expense.filterDateRange$])
             .pipe(filter(([user]) => !!user))
             .subscribe(([user, dateRange]) => {
-                console.log(user);
-                if (user) {
-                    this._persistence.getExpenses(user.id, dateRange).subscribe({
-                        next: (expenses) => {
-                            this._store.expenses$.next(expenses);
-                        },
-                        error: (error) => {
-                            console.error("Expense acquisition failed data:", error);
-                        },
-                    });
-                }
+                this._persistence.getExpenses(user!.id, dateRange).subscribe({
+                    next: (expenses) => {
+                        this._store.expenses$.next(expenses);
+                    },
+                    error: (error) => {
+                        console.error("Expense acquisition failed data:", error);
+                    },
+                });
             });
     }
 }

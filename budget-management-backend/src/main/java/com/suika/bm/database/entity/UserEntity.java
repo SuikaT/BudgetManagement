@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -22,19 +24,6 @@ public class UserEntity {
 
     private String email;
 
-    public UserEntity() {}
-
-    public UserEntity(Long id) {
-        this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", lastname='" + lastname + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
+    @Column(name = "last_connection")
+    private LocalDateTime lastConnection;
 }

@@ -44,4 +44,6 @@ public class ExpenseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "budget_item_id", nullable = true)
     private BudgetItemEntity relatedBudgetItem;
+
+    boolean autoAdded;
 }

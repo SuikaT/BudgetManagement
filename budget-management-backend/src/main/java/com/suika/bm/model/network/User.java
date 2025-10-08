@@ -4,6 +4,8 @@ import com.suika.bm.database.entity.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 public class User {
@@ -15,13 +17,5 @@ public class User {
 
     private String email;
 
-    public User() {}
-
-    public User(String email) {
-        this.email = email;
-    }
-
-    public User(Long id) {
-        this.id = id;
-    }
+    private LocalDateTime lastConnection;
 }

@@ -44,6 +44,7 @@ public class BudgetController {
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.notFound().build();  // 404
         } catch(Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build(); // 500
         }
     }
