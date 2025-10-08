@@ -37,15 +37,21 @@ export class EditExpenseComponent implements OnInit {
     onApply(expense: Expense): void {
         this._persistence.updateExpense(expense).subscribe({
             next: (updatedExpense) => {
-                this.updateStoreExpense(updatedExpense);
+                if (updatedExpense) {
+                    this.updateStoreExpense(updatedExpense);
 
-                this._expense.resetSelectedExpenses();
+                    this._expense.resetSelectedExpenses();
 
-                // navigate back to expenses
-                this._states.triggerReturn$.next();
+                    // navigate back to expenses
+                    this._states.triggerReturn$.next();
+                } else {
+                    this._expense.updateAsLocalExpense(expense);
+                    this._notification.showError("An error occurred, expense changes saved locally.");
+                }
             },
             error: () => {
-                this._notification.showError("An error occurred.");
+                this._expense.updateAsLocalExpense(expense);
+                this._notification.showError("An error occurred, expense changes saved locally.");
             },
         });
     }

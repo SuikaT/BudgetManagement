@@ -4,6 +4,7 @@ import { PaymentMethod } from "../enums/PaymentMethod";
 
 export interface BudgetItem {
     id?: number;
+    localId?: number;
     category?: ExpenseCategory;
     label: string;
     targetAmount: number;

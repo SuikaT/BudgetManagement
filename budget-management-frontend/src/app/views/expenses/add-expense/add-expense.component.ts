@@ -43,11 +43,13 @@ export class AddExpenseComponent {
                         // navigate back to expense page
                         this._states.triggerReturn$.next();
                     } else {
-                        this._notification.showError("An error occurred, expense could not be added.");
+                        this._expense.addToLocalExpenses(expense);
+                        this._notification.showError("An error occurred, expense saved locally.");
                     }
                 },
                 error: (err) => {
-                    this._notification.showError("An error occurred, expense could not be added.");
+                    this._expense.addToLocalExpenses(expense);
+                    this._notification.showError("An error occurred, expense saved locally.");
                 },
             });
         }

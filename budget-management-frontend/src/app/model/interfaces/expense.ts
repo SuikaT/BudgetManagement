@@ -3,6 +3,7 @@ import { PaymentMethod } from "../enums/PaymentMethod";
 
 export interface Expense {
     id?: number;
+    localId?: number;
     label: string;
     amount: number;
     date?: Date;

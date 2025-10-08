@@ -8,6 +8,8 @@ import { AuthService } from "../../services/auth.service";
 import { ExpenseCategory } from "../../model/enums/expenseCategory";
 import { PersistenceService } from "../../services/persistence.service";
 import { NotificationService } from "../../services/notification.service";
+import { LocalPersistenceService } from "../../services/local-persistence.service";
+import { StoreUtilsService } from "../../services/store-utils.service";
 
 @Injectable({
     providedIn: "root",
@@ -29,9 +31,10 @@ export class ExpensesService {
 
     constructor(
         private _store: StoreService,
-        private _auth: AuthService,
+        private _storeUtils: StoreUtilsService,
         private _persistence: PersistenceService,
         private _notification: NotificationService,
+        private _localPersistence: LocalPersistenceService,
     ) {
         // refresh amount on expenses update
         this._store.expenses$.subscribe((expenses) => {
@@ -150,6 +153,31 @@ export class ExpensesService {
             this.selectionEnabled = true;
             this.addExpenseToSelection(expense);
         }
+    }
+
+    addToLocalExpenses(expense: Expense) {
+        // init localId
+        expense.localId = this._storeUtils.initLocalExpenseId();
+
+        this.updateLocalStoreAndPreferences([...this._store.localExpenses, expense]);
+    }
+
+    updateAsLocalExpense(expense: Expense) {
+        let localExpenses = this._store.localExpenses;
+        if (!expense.localId) {
+            expense.localId = this._storeUtils.initLocalExpenseId();
+        } else {
+            localExpenses = localExpenses.filter((e) => e.localId != expense.localId);
+        }
+
+        this.updateLocalStoreAndPreferences([...localExpenses, expense]);
+    }
+
+    updateLocalStoreAndPreferences(expense: Expense[]) {
+        // update store
+        this._store.localExpenses$.next(expense);
+        // update capacitor preferences with the changes
+        this._localPersistence.setExpenses(expense);
     }
 
     get filterDateRange(): DateRange {

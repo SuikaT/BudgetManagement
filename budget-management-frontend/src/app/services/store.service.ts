@@ -12,12 +12,20 @@ export class StoreService {
 
     expenses$ = new BehaviorSubject<Expense[]>([]);
 
+    localExpenses$ = new BehaviorSubject<Expense[]>([]);
+
     expensesDateRange$ = new BehaviorSubject<DateRange>({ start: new Date(), end: new Date() });
 
     budgetItems$ = new BehaviorSubject<BudgetItem[]>([]);
 
+    localBudgetItems$ = new BehaviorSubject<BudgetItem[]>([]);
+
     get expenses() {
         return this.expenses$.getValue();
+    }
+
+    get localExpenses() {
+        return this.localExpenses$.getValue();
     }
 
     get expensesDateRange() {
@@ -26,5 +34,9 @@ export class StoreService {
 
     get budgetItems() {
         return this.budgetItems$.getValue();
+    }
+
+    get localBudgetItems() {
+        return this.localBudgetItems$.getValue();
     }
 }
