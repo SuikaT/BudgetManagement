@@ -1,11 +1,11 @@
-import { Injectable } from "@angular/core";
-import { StoreService } from "./store.service";
-import { Expense } from "../model/interfaces/expense";
-import { BudgetItem } from "../model/interfaces/budgetItem";
-import { Preferences } from "@capacitor/preferences";
+import { Injectable } from '@angular/core';
+import { StoreService } from './store.service';
+import { BudgetItem } from '../model/interfaces/budgetItem';
+import { DateUtils } from '../Utils/DateUtils';
+import { DateRange } from '../model/interfaces/DateRange';
 
 @Injectable({
-    providedIn: "root",
+    providedIn: 'root',
 })
 export class StoreUtilsService {
     constructor(private _store: StoreService) {}
@@ -28,5 +28,13 @@ export class StoreUtilsService {
         }
 
         return 1;
+    }
+
+    filterBudgetItemsByDateRange(budgetItems: BudgetItem[], dateRange: DateRange): BudgetItem[] {
+        if (dateRange == null) {
+            return budgetItems;
+        }
+
+        return budgetItems?.filter((b) => DateUtils.isBetween(b.date, dateRange));
     }
 }

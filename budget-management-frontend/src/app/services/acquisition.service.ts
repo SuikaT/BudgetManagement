@@ -1,18 +1,18 @@
-import { Injectable } from "@angular/core";
-import { AuthService } from "./auth.service";
-import { filter } from "rxjs/internal/operators/filter";
-import { switchMap } from "rxjs/internal/operators/switchMap";
-import { PersistenceService } from "./persistence.service";
-import { StoreService } from "./store.service";
-import { catchError, combineLatest, first, forkJoin, from, of, skip } from "rxjs";
-import { ExpensesService } from "../views/expenses/expenses.service";
-import { Preferences } from "@capacitor/preferences";
-import { Expense } from "../model/interfaces/expense";
-import { BudgetItem } from "../model/interfaces/budgetItem";
-import { StoreUtilsService } from "./store-utils.service";
+import { Injectable } from '@angular/core';
+import { AuthService } from './auth.service';
+import { filter } from 'rxjs/internal/operators/filter';
+import { switchMap } from 'rxjs/internal/operators/switchMap';
+import { PersistenceService } from './persistence.service';
+import { StoreService } from './store.service';
+import { catchError, combineLatest, first, forkJoin, from, of, skip } from 'rxjs';
+import { ExpensesService } from '../views/expenses/expenses.service';
+import { Preferences } from '@capacitor/preferences';
+import { Expense } from '../model/interfaces/expense';
+import { BudgetItem } from '../model/interfaces/budgetItem';
+import { StoreUtilsService } from './store-utils.service';
 
 @Injectable({
-    providedIn: "root",
+    providedIn: 'root',
 })
 export class AcquisitionService {
     constructor(
@@ -43,14 +43,14 @@ export class AcquisitionService {
                     return forkJoin({
                         expenses: this._persistence.getExpensesDateRange(user.id).pipe(
                             catchError((err) => {
-                                console.error("Expenses date range acquisition failed", err);
+                                console.error('Expenses date range acquisition failed', err);
                                 // empty array on error
                                 return of({ start: new Date(), end: new Date() });
                             }),
                         ),
-                        budgetItems: this._persistence.getBudgetItems(user.id).pipe(
+                        budgetItems: this._persistence.getBudgetItems().pipe(
                             catchError((err) => {
-                                console.error("BudgetItems acquisition failed", err);
+                                console.error('BudgetItems acquisition failed', err);
                                 // empty array on error
                                 return of([]);
                             }),
@@ -64,7 +64,7 @@ export class AcquisitionService {
                     this._store.budgetItems$.next(budgetItems);
                 },
                 error: (error) => {
-                    console.error("Unexpected acquisition error:", error);
+                    console.error('Unexpected acquisition error:', error);
                 },
             });
 
@@ -77,14 +77,14 @@ export class AcquisitionService {
                         this._store.expenses$.next(expenses);
                     },
                     error: (error) => {
-                        console.error("Expense acquisition failed data:", error);
+                        console.error('Expense acquisition failed data:', error);
                     },
                 });
             });
     }
 
     async retrieveLocalExpenses() {
-        const { value } = await Preferences.get({ key: "expenses" });
+        const { value } = await Preferences.get({ key: 'expenses' });
 
         const localExpenses = value ? (JSON.parse(value) as Expense[]) : [];
 
@@ -93,7 +93,7 @@ export class AcquisitionService {
     }
 
     async retrieveLocalBudgetItems() {
-        const { value } = await Preferences.get({ key: "budgetItems" });
+        const { value } = await Preferences.get({ key: 'budgetItems' });
 
         const localBudgetItems = value ? (JSON.parse(value) as BudgetItem[]) : [];
 

@@ -1,15 +1,15 @@
-import { Injectable } from "@angular/core";
-import { Expense } from "../model/interfaces/expense";
-import { environment } from "../../environments/environment";
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { first } from "rxjs/internal/operators/first";
-import { map, Observable } from "rxjs";
-import { formatDate } from "@angular/common";
-import { DateRange } from "../model/interfaces/DateRange";
-import { BudgetItem } from "../model/interfaces/budgetItem";
+import { Injectable } from '@angular/core';
+import { Expense } from '../model/interfaces/expense';
+import { environment } from '../../environments/environment';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { first } from 'rxjs/internal/operators/first';
+import { map, Observable } from 'rxjs';
+import { formatDate } from '@angular/common';
+import { DateRange } from '../model/interfaces/DateRange';
+import { BudgetItem } from '../model/interfaces/budgetItem';
 
 @Injectable({
-    providedIn: "root",
+    providedIn: 'root',
 })
 export class PersistenceService {
     constructor(private http: HttpClient) {}
@@ -27,8 +27,8 @@ export class PersistenceService {
     }
 
     getExpenses(userId: number, dateRange: DateRange): Observable<Expense[]> {
-        const formatedStartDate = formatDate(dateRange.start, "yyyy-MM-dd", "en-US");
-        const formatedEndDate = formatDate(dateRange.end, "yyyy-MM-dd", "en-US");
+        const formatedStartDate = formatDate(dateRange.start, 'yyyy-MM-dd', 'en-US');
+        const formatedEndDate = formatDate(dateRange.end, 'yyyy-MM-dd', 'en-US');
 
         return this.http.get<Expense[]>(`${environment.apiUrl}/expenses/${userId}`, { params: { startDate: formatedStartDate, endDate: formatedEndDate } }).pipe(first());
     }
@@ -47,12 +47,16 @@ export class PersistenceService {
 
     /* BUDGET ITEMS */
 
-    getBudgetItems(userId: number): Observable<BudgetItem[]> {
-        return this.http.get<BudgetItem[]>(`${environment.apiUrl}/budget/budgetItems/${userId}`).pipe(first());
+    getBudgetItems(): Observable<BudgetItem[]> {
+        return this.http.get<BudgetItem[]>(`${environment.apiUrl}/budget/budgetItems`).pipe(first());
     }
 
-    addBudgetItem(budgetItem: BudgetItem, userId: number): Observable<BudgetItem> {
-        return this.http.post<BudgetItem>(`${environment.apiUrl}/budget/budgetItems/${userId}`, budgetItem).pipe(first());
+    addBudgetItem(budgetItem: BudgetItem): Observable<BudgetItem> {
+        return this.http.post<BudgetItem>(`${environment.apiUrl}/budget/budgetItems`, budgetItem).pipe(first());
+    }
+
+    addBudgetItems(budgetItems: BudgetItem[]): Observable<BudgetItem[]> {
+        return this.http.post<BudgetItem[]>(`${environment.apiUrl}/budget/budgetItems`, budgetItems).pipe(first());
     }
 
     deleteBudgetItems(budgetItems: BudgetItem[]): Observable<void> {

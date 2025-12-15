@@ -37,7 +37,6 @@ export class LocalPersistenceService {
     }
 
     /* BUDGET ITEMS */
-
     getBudgetItems(): Observable<BudgetItem[]> {
         return from(Preferences.get({ key: "budgetItems" })).pipe(
             map(({ value }) => {
