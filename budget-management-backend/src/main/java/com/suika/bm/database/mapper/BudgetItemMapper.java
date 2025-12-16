@@ -1,15 +1,15 @@
 package com.suika.bm.database.mapper;
 
-import com.suika.bm.database.entity.BudgetItemEntity;
-import com.suika.bm.database.entity.ExpenseEntity;
-import com.suika.bm.model.product.BudgetItem;
-import com.suika.bm.model.product.Expense;
 import org.springframework.stereotype.Component;
+
+import com.suika.bm.database.entity.BudgetItemEntity;
+import com.suika.bm.model.product.BudgetItem;
 
 @Component
 public class BudgetItemMapper {
     public BudgetItemEntity toEntity(BudgetItem expense) {
-        if (expense == null) return null;
+        if (expense == null)
+            return null;
 
         BudgetItemEntity entity = new BudgetItemEntity();
         entity.setId(expense.getId());
@@ -26,7 +26,8 @@ public class BudgetItemMapper {
     }
 
     public BudgetItem toDto(BudgetItemEntity entity) {
-        if (entity == null) return null;
+        if (entity == null)
+            return null;
 
         BudgetItem dto = new BudgetItem();
         dto.setId(entity.getId());
@@ -42,7 +43,7 @@ public class BudgetItemMapper {
     }
 
     public void updateEntityFromDto(BudgetItemEntity entity, BudgetItem expense) {
-        if(entity == null || expense == null) {
+        if (entity == null || expense == null) {
             return;
         }
 

@@ -49,12 +49,11 @@ public class BudgetService {
 
         BudgetItemEntity savedBudgetItemEntity = budgetItemRepository.save(budgetItemEntity);
 
-        if(checkAutoAdd(savedBudgetItemEntity)) {
-            while(!savedBudgetItemEntity.getDate().isAfter(LocalDate.now())) {
+        if (checkAutoAdd(savedBudgetItemEntity)) {
+            while (!savedBudgetItemEntity.getDate().isAfter(LocalDate.now())) {
                 autoAddToExpense(budgetItemEntity);
             }
         }
-
 
         return budgetItemMapper.toDto(savedBudgetItemEntity);
     }
@@ -72,7 +71,7 @@ public class BudgetService {
 
     @Transactional
     public void deleteBudgetItemByIds(List<Long> budgetItemIds) {
-        if(budgetItemIds == null) {
+        if (budgetItemIds == null) {
             throw new IllegalArgumentException();
         }
 
@@ -88,7 +87,7 @@ public class BudgetService {
 
         List<BudgetItemEntity> budgetItemEntities = budgetItemRepository.findAllByDate(dateToApply);
 
-        for(BudgetItemEntity budgetItemEntity: budgetItemEntities) {
+        for (BudgetItemEntity budgetItemEntity : budgetItemEntities) {
             autoAddToExpense(budgetItemEntity);
         }
     }
@@ -112,7 +111,7 @@ public class BudgetService {
     }
 
     private LocalDate incrementDate(LocalDate currentDate, ExpenseSchedule schedule) {
-        if(currentDate == null) {
+        if (currentDate == null) {
             return null;
         }
 

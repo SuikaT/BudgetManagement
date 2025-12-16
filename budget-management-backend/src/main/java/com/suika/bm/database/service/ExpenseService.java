@@ -10,7 +10,6 @@ import com.suika.bm.database.entity.UserEntity;
 import com.suika.bm.database.mapper.ExpenseMapper;
 import com.suika.bm.database.repository.ExpenseRepository;
 import com.suika.bm.database.repository.UserRepository;
-import com.suika.bm.model.enums.ExpenseCategory;
 import com.suika.bm.model.product.Expense;
 import com.suika.bm.model.product.ExpenseDateRange;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +30,7 @@ public class ExpenseService {
 
     @Transactional
     public List<Expense> getExpensesByUserIdAndInDateRange(Long userId, LocalDate startDate, LocalDate endDate) {
-        if(endDate == null || startDate == null) {
+        if (endDate == null || startDate == null) {
             throw new IllegalArgumentException("startDate or endDate is null");
         }
 
@@ -49,7 +48,7 @@ public class ExpenseService {
         ExpenseDateRange dateRange = expenseRepository.findDateRangeByUserId(userId);
 
         // If either start or end is null, return a default record
-        if(dateRange.start() == null || dateRange.end() == null) {
+        if (dateRange.start() == null || dateRange.end() == null) {
             dateRange = new ExpenseDateRange(LocalDate.now(), LocalDate.now());
         }
 
@@ -63,8 +62,9 @@ public class ExpenseService {
 
         Long relatedBudgetItemId = expense.getRelatedBudgetItemId();
         // find related budget item entity
-        BudgetItemEntity budgetItemEntity = relatedBudgetItemId != null && relatedBudgetItemId != 0 ?
-                budgetItemRepository.findById(relatedBudgetItemId).orElseThrow(() -> new BudgetItemNotFoundException(relatedBudgetItemId))
+        BudgetItemEntity budgetItemEntity = relatedBudgetItemId != null && relatedBudgetItemId != 0
+                ? budgetItemRepository.findById(relatedBudgetItemId)
+                        .orElseThrow(() -> new BudgetItemNotFoundException(relatedBudgetItemId))
                 : null;
 
         return addExpense(expense, userEntity, budgetItemEntity);
@@ -83,7 +83,7 @@ public class ExpenseService {
 
     @Transactional
     public void deleteExpenseByIds(List<Long> expenseIds) {
-        if(expenseIds == null) {
+        if (expenseIds == null) {
             throw new IllegalArgumentException();
         }
 
@@ -92,7 +92,7 @@ public class ExpenseService {
 
     @Transactional
     public Expense updateExpense(Expense expense) {
-        if(expense == null ) {
+        if (expense == null) {
             throw new ExpenseNotFoundException(null);
         }
 
@@ -102,7 +102,7 @@ public class ExpenseService {
         expenseMapper.updateEntityFromDto(entityToUpdate, expense);
 
         Long relatedBudgetItemId = expense.getRelatedBudgetItemId();
-        if(relatedBudgetItemId != null && relatedBudgetItemId != 0) {
+        if (relatedBudgetItemId != null && relatedBudgetItemId != 0) {
             // find related budget item entity
             BudgetItemEntity budgetItemEntity = budgetItemRepository.findById(relatedBudgetItemId)
                     .orElseThrow(() -> new BudgetItemNotFoundException(relatedBudgetItemId));

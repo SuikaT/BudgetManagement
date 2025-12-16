@@ -1,22 +1,28 @@
 package com.suika.bm.controller;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.suika.bm.database.service.ExpenseService;
-import com.suika.bm.database.service.UserService;
 import com.suika.bm.exception.ExpenseNotFoundException;
 import com.suika.bm.exception.ResourceNotFoundException;
 import com.suika.bm.model.network.User;
 import com.suika.bm.model.product.Expense;
 import com.suika.bm.model.product.ExpenseDateRange;
-import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.util.List;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @CrossOrigin
@@ -26,41 +32,49 @@ public class ExpenseController {
 
     private final ExpenseService expenseService;
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<Expense>> getExpenses(@PathVariable Long userId, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
+    @GetMapping()
+    public ResponseEntity<List<Expense>> getExpenses(HttpServletRequest request, @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate) {
         try {
-            List<Expense> expenseList = expenseService.getExpensesByUserIdAndInDateRange(userId, startDate, endDate);
+            User user = (User) request.getAttribute("user");
+
+            List<Expense> expenseList = expenseService.getExpensesByUserIdAndInDateRange(user.getId(), startDate,
+                    endDate);
 
             return ResponseEntity.ok(expenseList);
         } catch (ResourceNotFoundException e) {
-            return ResponseEntity.notFound().build();  // 404
-        } catch(Exception e) {
+            return ResponseEntity.notFound().build(); // 404
+        } catch (Exception e) {
             return ResponseEntity.internalServerError().build(); // 500
         }
     }
 
-    @GetMapping("/{userId}/dateRange")
-    public ResponseEntity<ExpenseDateRange> getExpensesDateRange(@PathVariable Long userId) {
+    @GetMapping("/dateRange")
+    public ResponseEntity<ExpenseDateRange> getExpensesDateRange(HttpServletRequest request) {
         try {
-            ExpenseDateRange dateRange = expenseService.getExpensesDateRangeByUser(userId);
+            User user = (User) request.getAttribute("user");
+
+            ExpenseDateRange dateRange = expenseService.getExpensesDateRangeByUser(user.getId());
 
             return ResponseEntity.ok(dateRange);
         } catch (ResourceNotFoundException e) {
-            return ResponseEntity.notFound().build();  // 404
-        } catch(Exception e) {
+            return ResponseEntity.notFound().build(); // 404
+        } catch (Exception e) {
             return ResponseEntity.internalServerError().build(); // 500
         }
     }
 
-    @PostMapping("/{userId}")
-    public ResponseEntity<Expense> addExpense(@RequestBody Expense expense, @PathVariable Long userId) {
+    @PostMapping()
+    public ResponseEntity<Expense> addExpense(HttpServletRequest request, @RequestBody Expense expense) {
         try {
-            Expense savedExpense = expenseService.addExpense(expense, userId);
+            User user = (User) request.getAttribute("user");
+
+            Expense savedExpense = expenseService.addExpense(expense, user.getId());
 
             return ResponseEntity.ok(savedExpense);
         } catch (ResourceNotFoundException e) {
-            return ResponseEntity.notFound().build();  // 404
-        } catch(Exception e) {
+            return ResponseEntity.notFound().build(); // 404
+        } catch (Exception e) {
             return ResponseEntity.internalServerError().build(); // 500
         }
     }
@@ -71,7 +85,7 @@ public class ExpenseController {
             expenseService.deleteExpenseByIds(expenseIds);
 
             return ResponseEntity.noContent().build(); // 204
-        }  catch(Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.internalServerError().build(); // 500
         }
     }
@@ -83,8 +97,8 @@ public class ExpenseController {
 
             return ResponseEntity.ok(updatedExpense);
         } catch (ExpenseNotFoundException e) {
-            return ResponseEntity.notFound().build();  // 404
-        } catch(Exception e) {
+            return ResponseEntity.notFound().build(); // 404
+        } catch (Exception e) {
             return ResponseEntity.internalServerError().build(); // 500
         }
     }

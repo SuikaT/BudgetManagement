@@ -1,20 +1,17 @@
 package com.suika.bm.controller;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.suika.bm.database.service.ExpenseService;
 import com.suika.bm.database.service.UserService;
-import com.suika.bm.exception.ResourceNotFoundException;
 import com.suika.bm.exception.UserNotFoundException;
 import com.suika.bm.model.network.User;
-import com.suika.bm.model.product.Expense;
-import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @CrossOrigin
@@ -31,8 +28,8 @@ public class UserController {
 
             return ResponseEntity.ok(user);
         } catch (UserNotFoundException e) {
-            return ResponseEntity.notFound().build();  // 404
-        } catch(Exception e) {
+            return ResponseEntity.notFound().build(); // 404
+        } catch (Exception e) {
             return ResponseEntity.internalServerError().build(); // 500
         }
     }
@@ -44,8 +41,8 @@ public class UserController {
 
             return ResponseEntity.ok(user);
         } catch (UserNotFoundException e) {
-            return ResponseEntity.notFound().build();  // 404
-        } catch(Exception e) {
+            return ResponseEntity.notFound().build(); // 404
+        } catch (Exception e) {
             return ResponseEntity.internalServerError().build(); // 500
         }
     }

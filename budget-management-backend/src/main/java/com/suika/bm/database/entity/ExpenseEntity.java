@@ -1,16 +1,12 @@
 package com.suika.bm.database.entity;
 
-import com.suika.bm.database.service.ExpenseService;
 import com.suika.bm.model.enums.ExpenseCategory;
-import com.suika.bm.model.enums.ExpenseSchedule;
 import com.suika.bm.model.enums.PaymentMethod;
-import com.suika.bm.model.product.Expense;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter

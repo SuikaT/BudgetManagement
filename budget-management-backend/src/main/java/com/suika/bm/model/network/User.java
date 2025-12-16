@@ -1,6 +1,5 @@
 package com.suika.bm.model.network;
 
-import com.suika.bm.database.entity.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
 

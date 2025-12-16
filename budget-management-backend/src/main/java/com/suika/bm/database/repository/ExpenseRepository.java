@@ -2,8 +2,6 @@ package com.suika.bm.database.repository;
 
 import com.suika.bm.database.entity.ExpenseEntity;
 import com.suika.bm.database.entity.UserEntity;
-import com.suika.bm.model.enums.ExpenseCategory;
-import com.suika.bm.model.network.User;
 import com.suika.bm.model.product.ExpenseDateRange;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,7 +15,6 @@ import java.util.List;
 public interface ExpenseRepository extends JpaRepository<ExpenseEntity, Long> {
 
     List<ExpenseEntity> findAllByUserAndDateBetween(UserEntity userEntity, LocalDate startDate, LocalDate endDate);
-
 
     @Query("SELECT MIN(e.date) as minDate, MAX(e.date) as maxDate " +
             "FROM ExpenseEntity e WHERE e.user.id = :userId")
