@@ -62,15 +62,7 @@ public class AuthService {
         Instant now = Instant.now();
         Instant exp = now.plus(accessExpiration, ChronoUnit.SECONDS);
 
-        String token = Jwts.builder()
-                .issuer(issuer)
-                .subject(user.getId().toString())
-                .issuedAt(Date.from(now))
-                .expiration(Date.from(exp))
-                .signWith(secretKey)
-                .compact();
-
-        return token;
+        return generateToken(user, Date.from(now), Date.from(exp));
     }
 
     public String generateRefreshToken(User user) {
@@ -81,15 +73,13 @@ public class AuthService {
     }
 
     private String generateToken(User user, Date issuedAt, Date expiration) {
-        String token = Jwts.builder()
+        return Jwts.builder()
                 .issuer(issuer)
                 .subject(user.getId().toString())
                 .issuedAt(issuedAt)
                 .expiration(expiration)
                 .signWith(secretKey)
                 .compact();
-
-        return token;
     }
 
     public Claims validate(String token) {
