@@ -3,7 +3,9 @@ package com.suika.bm.database.service;
 import com.suika.bm.database.entity.UserEntity;
 import com.suika.bm.database.mapper.UserMapper;
 import com.suika.bm.database.repository.UserRepository;
+import com.suika.bm.exception.BadCredentialsException;
 import com.suika.bm.exception.UserNotFoundException;
+import com.suika.bm.model.dto.auth.Credentials;
 import com.suika.bm.model.network.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -41,5 +43,16 @@ public class UserService {
         LocalDateTime sixMonthsAgo = LocalDateTime.now().minusMonths(6);
 
         return userRepository.findByLastConnectionAfter(sixMonthsAgo);
+    }
+
+    public User getUserByCredentials(Credentials credentials) {
+        if(credentials == null) {
+            throw new BadCredentialsException("null");
+        }
+
+        UserEntity entity = userRepository.findByEmailAndPassword(credentials.getEmail(), credentials.getPassword())
+                .orElseThrow(() -> new BadCredentialsException(credentials.getEmail()));
+
+        return userMapper.toDto(entity);
     }
 }

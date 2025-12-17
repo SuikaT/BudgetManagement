@@ -24,6 +24,8 @@ public class UserEntity {
 
     private String email;
 
+    private String password;
+
     @Column(name = "last_connection")
     private LocalDateTime lastConnection;
 }

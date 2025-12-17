@@ -32,7 +32,7 @@ export class AddBudgetItemComponent {
             }
 
             // add expense to database
-            this._persistence.addBudgetItem(budgetItem, user.id).subscribe({
+            this._persistence.addBudgetItem(budgetItem).subscribe({
                 next: (savedBudgetItem) => {
                     if (savedBudgetItem) {
                         // actualize store

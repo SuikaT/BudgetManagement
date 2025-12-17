@@ -22,7 +22,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/budget")
 @RequiredArgsConstructor
 public class BudgetController {
@@ -55,7 +54,6 @@ public class BudgetController {
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.notFound().build(); // 404
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.internalServerError().build(); // 500
         }
     }

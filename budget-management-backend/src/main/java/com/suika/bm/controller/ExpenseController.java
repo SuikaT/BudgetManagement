@@ -3,6 +3,8 @@ package com.suika.bm.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,10 +27,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/expenses")
 @RequiredArgsConstructor
 public class ExpenseController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExpenseController.class);
 
     private final ExpenseService expenseService;
 
@@ -38,8 +40,7 @@ public class ExpenseController {
         try {
             User user = (User) request.getAttribute("user");
 
-            List<Expense> expenseList = expenseService.getExpensesByUserIdAndInDateRange(user.getId(), startDate,
-                    endDate);
+            List<Expense> expenseList = expenseService.getExpensesByUserIdAndInDateRange(user.getId(), startDate, endDate);
 
             return ResponseEntity.ok(expenseList);
         } catch (ResourceNotFoundException e) {
@@ -58,8 +59,12 @@ public class ExpenseController {
 
             return ResponseEntity.ok(dateRange);
         } catch (ResourceNotFoundException e) {
+            LOGGER.error(e.getMessage());
+
             return ResponseEntity.notFound().build(); // 404
         } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+
             return ResponseEntity.internalServerError().build(); // 500
         }
     }

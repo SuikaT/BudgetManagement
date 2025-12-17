@@ -1,5 +1,6 @@
 package com.suika.bm.interceptor;
 
+import io.jsonwebtoken.Claims;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,7 +9,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.suika.bm.database.service.UserService;
 import com.suika.bm.model.network.User;
-import com.suika.bm.service.AuthService;
+import com.suika.bm.service.JwtService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,28 +23,22 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     private final UserService userService;
 
-    private final AuthService authService;
+    private final JwtService jwtService;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-            throws Exception {
-
-        String header = request.getHeader("Authorization");
-
-        if (header == null || !header.startsWith("Bearer ")) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return false;
-        }
-
-        String token = header.substring(7);
-
-        if (!authService.isValidToken(token)) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return false;
-        }
-
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         try {
-            Long userId = authService.getUserId(token);
+            String header = request.getHeader("Authorization");
+
+            if(header == null || !header.startsWith("Bearer ")) {
+                throw new Exception("Authorization is null or header does not start with Bearer");
+            }
+
+            String token = header.substring(7);
+
+            Claims claims = jwtService.validate(token);
+
+            Long userId = claims.get("userId", Long.class);
 
             if (userId == null) {
                 throw new Exception("No userId in token");

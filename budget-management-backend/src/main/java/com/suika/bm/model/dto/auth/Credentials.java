@@ -1,13 +1,12 @@
 package com.suika.bm.model.dto.auth;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
-public class LoginRequest {
+@AllArgsConstructor
+@ToString
+public class Credentials {
     private String email;
     private String password;
 }

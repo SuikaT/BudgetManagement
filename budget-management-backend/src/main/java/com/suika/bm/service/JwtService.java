@@ -19,7 +19,7 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 
 @Service
-public class AuthService {
+public class JwtService {
 
     @Value("${jwt.issuer}")
     private String issuer;
@@ -44,20 +44,6 @@ public class AuthService {
         return true;
     }
 
-    public User getUser(String token) {
-        return null;
-    }
-
-    public Long getUserId(String token) {
-        User user = getUser(token);
-
-        if (user != null) {
-            return user.getId();
-        }
-
-        return null;
-    }
-
     public String generateAccessToken(User user) {
         Instant now = Instant.now();
         Instant exp = now.plus(accessExpiration, ChronoUnit.SECONDS);
@@ -73,9 +59,15 @@ public class AuthService {
     }
 
     private String generateToken(User user, Date issuedAt, Date expiration) {
+        if(user == null) throw new IllegalArgumentException("User is null");
+
         return Jwts.builder()
                 .issuer(issuer)
                 .subject(user.getId().toString())
+                .claim("userId", user.getId())
+                .claim("email", user.getEmail())
+                .claim("firstname", user.getFirstname())
+                .claim("lastname", user.getLastname())
                 .issuedAt(issuedAt)
                 .expiration(expiration)
                 .signWith(secretKey)
