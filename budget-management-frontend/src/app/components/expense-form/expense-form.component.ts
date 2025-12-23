@@ -1,24 +1,24 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatNativeDateModule } from "@angular/material/core";
-import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import { MatSelectModule } from "@angular/material/select";
-import { ExpenseForm } from "../../model/interfaces/expenseForm";
-import { PaymentMethod } from "../../model/enums/PaymentMethod";
-import { ExpenseCategory } from "../../model/enums/expenseCategory";
-import { Expense } from "../../model/interfaces/expense";
-import { MatCheckbox } from "@angular/material/checkbox";
-import { BudgetItem } from "../../model/interfaces/budgetItem";
-import { StoreService } from "../../services/store.service";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { ExpenseForm } from '../../model/form/expenseForm';
+import { PaymentMethod } from '../../model/enums/PaymentMethod';
+import { ExpenseCategory } from '../../model/enums/expenseCategory';
+import { Expense } from '../../model/interfaces/expense';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { BudgetItem } from '../../model/interfaces/budgetItem';
+import { StoreService } from '../../services/store.service';
 
 @Component({
-    selector: "app-expense-form",
+    selector: 'app-expense-form',
     imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatNativeDateModule, MatDatepickerModule, MatSelectModule, MatCheckbox],
-    templateUrl: "./expense-form.component.html",
-    styleUrl: "./expense-form.component.scss",
+    templateUrl: './expense-form.component.html',
+    styleUrl: './expense-form.component.scss',
 })
 export class ExpenseFormComponent implements OnInit {
     expenseForm!: FormGroup;
@@ -30,7 +30,7 @@ export class ExpenseFormComponent implements OnInit {
     categories: string[] = Object.values(ExpenseCategory);
 
     @Input()
-    submitLabel: string = "";
+    submitLabel: string = '';
 
     @Input()
     expense: Expense | undefined;
@@ -47,7 +47,7 @@ export class ExpenseFormComponent implements OnInit {
 
     ngOnInit(): void {
         this.expenseForm = this.fb.group<ExpenseForm>({
-            label: this.fb.control(this.expense?.label ?? "Expense", { validators: [Validators.required] }),
+            label: this.fb.control(this.expense?.label ?? 'Expense', { validators: [Validators.required] }),
             amount: this.fb.control(this.expense?.amount ?? 0, { validators: [Validators.required] }),
             date: this.fb.control(this.expense?.date ?? new Date(), { validators: [Validators.required] }),
             category: this.fb.control(this.expense?.category ?? ExpenseCategory.GROCERY, { validators: [Validators.required] }),
@@ -56,10 +56,10 @@ export class ExpenseFormComponent implements OnInit {
             relatedBudgetItemId: this.fb.control(this.expense?.relatedBudgetItemId ?? 0, { validators: [Validators.required] }),
         });
 
-        this.expenseForm.get("category")?.valueChanges.subscribe((category) => {
+        this.expenseForm.get('category')?.valueChanges.subscribe((category) => {
             const relatedBudget = this.budgetItems.find((b) => b.category == category);
             // set as related budget the first budget item found of the same category
-            this.expenseForm.get("relatedBudgetItemId")?.setValue(relatedBudget ? relatedBudget.id : 0);
+            this.expenseForm.get('relatedBudgetItemId')?.setValue(relatedBudget ? relatedBudget.id : 0);
         });
 
         this._store.budgetItems$.subscribe((b) => (this.budgetItems = b));

@@ -1,42 +1,50 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, first, Observable } from "rxjs";
-import { User } from "../model/interfaces/user";
-import { environment } from "../../environments/environment";
-import { HttpClient } from "@angular/common/http";
-import { LoginResponse } from "../model/interfaces/loginResponse";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, catchError, first, map, Observable, of, tap } from 'rxjs';
+import { User } from '../model/interfaces/user';
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { LoginResponse } from '../model/interfaces/loginResponse';
+import { LocalPersistenceService } from './local-persistence.service';
+import { StorageKey } from '../model/enums/storageKey';
 
 @Injectable({
-    providedIn: "root",
+    providedIn: 'root',
 })
 export class AuthService {
     currentUser$ = new BehaviorSubject<User | undefined>(undefined);
 
-    private _token = ""; // Memory cache
+    private _token = ''; // Memory cache
 
     get token(): string {
         return this._token;
     }
 
-    constructor(private http: HttpClient) {}
+    constructor(
+        private http: HttpClient,
+        private _localPersistence: LocalPersistenceService,
+    ) {}
 
     get currentUser(): User | undefined {
         return this.currentUser$.getValue();
     }
 
-    login(email: string, password: string) {
-        this.authenticate(email, password).subscribe({
-            next: (response) => {
-                console.log("authentication success: ", response);
-
+    login(email: string, password: string): Observable<boolean> {
+        return this.authenticate(email, password).pipe(
+            tap((response) => {
+                console.log('authentication success:', response);
+                // save token in memory
                 this._token = response.token;
+                // set currentUser
                 this.currentUser$.next(response.user);
-
-                //TODO store token into  cookies
-            },
-            error: (error) => {
-                console.error("Authentication error:", error);
-            },
-        });
+                // save token in secured storage
+                this._localPersistence.setSecure(StorageKey.TOKEN, this._token);
+            }),
+            map(() => true),
+            catchError((error) => {
+                console.error('Authentication error:', error);
+                return of(false);
+            }),
+        );
     }
 
     authenticate(email: string, password: string): Observable<LoginResponse> {

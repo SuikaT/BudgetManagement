@@ -1,26 +1,26 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatNativeDateModule } from "@angular/material/core";
-import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import { MatSelectModule } from "@angular/material/select";
-import { ExpenseForm } from "../../model/interfaces/expenseForm";
-import { PaymentMethod } from "../../model/enums/PaymentMethod";
-import { ExpenseCategory } from "../../model/enums/expenseCategory";
-import { Expense } from "../../model/interfaces/expense";
-import { MatCheckbox } from "@angular/material/checkbox";
-import { BudgetItem } from "../../model/interfaces/budgetItem";
-import { BudgetForm } from "../../model/interfaces/budgetForm";
-import { scheduled } from "rxjs";
-import { ExpenseSchedule } from "../../model/enums/expenseSchedule";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { ExpenseForm } from '../../model/form/expenseForm';
+import { PaymentMethod } from '../../model/enums/PaymentMethod';
+import { ExpenseCategory } from '../../model/enums/expenseCategory';
+import { Expense } from '../../model/interfaces/expense';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { BudgetItem } from '../../model/interfaces/budgetItem';
+import { BudgetForm } from '../../model/form/budgetForm';
+import { scheduled } from 'rxjs';
+import { ExpenseSchedule } from '../../model/enums/expenseSchedule';
 
 @Component({
-    selector: "app-budget-form",
+    selector: 'app-budget-form',
     imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatNativeDateModule, MatDatepickerModule, MatSelectModule, MatCheckbox],
-    templateUrl: "./budget-form.component.html",
-    styleUrl: "./budget-form.component.scss",
+    templateUrl: './budget-form.component.html',
+    styleUrl: './budget-form.component.scss',
 })
 export class BudgetFormComponent implements OnInit {
     budgetForm!: FormGroup;
@@ -35,7 +35,7 @@ export class BudgetFormComponent implements OnInit {
     expenseSchedules: string[] = Object.values(ExpenseSchedule).filter((s) => s != ExpenseSchedule.UNDEFINED);
 
     @Input()
-    submitLabel: string = "";
+    submitLabel: string = '';
 
     @Input()
     budgetItem: BudgetItem | undefined;
@@ -47,7 +47,7 @@ export class BudgetFormComponent implements OnInit {
 
     ngOnInit(): void {
         this.budgetForm = this.fb.group<BudgetForm>({
-            label: this.fb.control(this.budgetItem?.label ?? "Expense", { validators: [Validators.required] }),
+            label: this.fb.control(this.budgetItem?.label ?? 'Expense', { validators: [Validators.required] }),
             targetAmount: this.fb.control(this.budgetItem?.targetAmount ?? 0, { validators: [Validators.required] }),
             category: this.fb.control(this.budgetItem?.category ?? ExpenseCategory.GROCERY, { validators: [Validators.required] }),
             isScheduled: this.fb.control(this.budgetItem ? this.budgetItem?.schedule != ExpenseSchedule.UNDEFINED : false),

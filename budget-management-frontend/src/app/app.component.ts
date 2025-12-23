@@ -1,17 +1,17 @@
-import { Component, inject, OnDestroy, OnInit } from "@angular/core";
-import { ActivatedRoute, ActivatedRouteSnapshot, Data, NavigationEnd, Router, RouterOutlet, RoutesRecognized } from "@angular/router";
-import { FooterComponent } from "./views/footer/footer.component";
-import { ThemeService } from "./services/theme.service";
-import { HeaderComponent } from "./views/header/header.component";
-import { filter, Subscription } from "rxjs";
-import { AuthService } from "./services/auth.service";
-import { AcquisitionService } from "./services/acquisition.service";
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, ActivatedRouteSnapshot, Data, NavigationEnd, Router, RouterOutlet, RoutesRecognized } from '@angular/router';
+import { FooterComponent } from './views/footer/footer.component';
+import { ThemeService } from './services/theme.service';
+import { HeaderComponent } from './views/header/header.component';
+import { filter, Subscription } from 'rxjs';
+import { AuthService } from './services/auth.service';
+import { AcquisitionService } from './services/acquisition.service';
 
 @Component({
-    selector: "app-root",
+    selector: 'app-root',
     imports: [RouterOutlet, FooterComponent, HeaderComponent],
-    templateUrl: "./app.component.html",
-    styleUrl: "./app.component.scss",
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss',
     standalone: true,
 })
 export class AppComponent implements OnInit, OnDestroy {
@@ -21,8 +21,8 @@ export class AppComponent implements OnInit, OnDestroy {
     sub: Subscription | undefined;
 
     hideReturn = true;
-    returnTo = "/";
-    title = "";
+    returnTo = '/';
+    title = '';
 
     constructor(
         private _theme: ThemeService,
@@ -37,12 +37,12 @@ export class AppComponent implements OnInit, OnDestroy {
             const snapshot = this.getDeepestChild((event as RoutesRecognized).state.root);
             const data = snapshot.data ?? {};
 
-            this.hideReturn = data["hideReturn"] ?? true;
-            this.returnTo = data["returnTo"] ?? "/";
-            this.title = data["title"] ?? "";
+            this.hideReturn = data['hideReturn'] ?? true;
+            this.returnTo = data['returnTo'] ?? '/';
+            this.title = data['title'] ?? '';
         });
 
-        this._auth.login("bourney.julien@gmail.com", "test1234");
+        this._auth.login('bourney.julien@gmail.com', 'test1234');
     }
 
     ngOnDestroy() {

@@ -1,0 +1,25 @@
+<form [formGroup]="loginForm" (ngSubmit)="submitClick()">
+    <!-- Email -->
+    <mat-form-field appearance="outline">
+        <mat-label>Label</mat-label>
+        <input type="email" matInput formControlName="email" placeholder="Email" />
+        @if (loginForm.get("email")?.hasError("required")) {
+        <mat-error> Label is required </mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Password -->
+    <mat-form-field appearance="outline">
+        <mat-label>Target amount</mat-label>
+        <input type="password" matInput formControlName="password" placeholder="Password" />
+        @if (loginForm.get("password")?.hasError("required")) {
+        <mat-error> Amount is required </mat-error>
+        }
+    </mat-form-field>
+
+    <!-- RememberMe -->
+    <mat-checkbox formControlName="rememberEmail">Remember me</mat-checkbox>
+
+    <!-- Submit -->
+    <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">{{ "Login" }}</button>
+</form>
