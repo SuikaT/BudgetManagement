@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { PersistenceService } from './persistence.service';
-import { StoreService } from './store.service';
-import { Utils } from '../Utils/Utils';
-import { StoreUtilsService } from './store-utils.service';
+import { Injectable } from "@angular/core";
+import { PersistenceService } from "./persistence.service";
+import { StoreService } from "./store.service";
+import { StoreUtilsService } from "./store-utils.service";
+import { Utils } from "suikility";
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: "root",
 })
 export class SynchronizeService {
     constructor(
@@ -37,7 +37,7 @@ export class SynchronizeService {
                 }
             },
             error: (error) => {
-                console.error('Unexpected acquisition error:', error);
+                console.error("Unexpected acquisition error:", error);
             },
         });
     }

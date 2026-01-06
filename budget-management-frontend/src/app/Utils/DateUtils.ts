@@ -1,4 +1,4 @@
-import { DateRange } from '../model/interfaces/DateRange';
+import { DateRange } from "../model/interfaces/DateRange";
 
 export class DateUtils {
     static isBetween(date: Date, dateRange: DateRange): boolean {

@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { GetResult, Preferences } from '@capacitor/preferences';
-import { SecureStoragePlugin } from 'capacitor-secure-storage-plugin';
-import { from, map, Observable } from 'rxjs';
-import { StorageKey } from '../model/enums/storageKey';
-import { BudgetItem } from '../model/interfaces/budgetItem';
-import { Expense } from '../model/interfaces/expense';
+import { Injectable } from "@angular/core";
+import { GetResult, Preferences } from "@capacitor/preferences";
+import { SecureStoragePlugin } from "capacitor-secure-storage-plugin";
+import { from, map, Observable } from "rxjs";
+import { StorageKey } from "../model/enums/storageKey";
+import { BudgetItem } from "../model/interfaces/budgetItem";
+import { Expense } from "../model/interfaces/expense";
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: "root",
 })
 export class LocalPersistenceService {
     constructor() {}
@@ -28,6 +28,10 @@ export class LocalPersistenceService {
         return SecureStoragePlugin.get({ key });
     }
 
+    removeSecure(key: string): Promise<{ value: boolean }> {
+        return SecureStoragePlugin.remove({ key });
+    }
+
     /* EXPENSES */
     getExpenses(): Observable<Expense[]> {
         return this.getPreference(StorageKey.EXPENSES).pipe(
@@ -35,7 +39,7 @@ export class LocalPersistenceService {
                 try {
                     return value ? (JSON.parse(value) as Expense[]) : [];
                 } catch {
-                    console.warn('Invalid expenses JSON in Preferences');
+                    console.warn("Invalid expenses JSON in Preferences");
                     return [];
                 }
             }),
@@ -53,7 +57,7 @@ export class LocalPersistenceService {
                 try {
                     return value ? (JSON.parse(value) as BudgetItem[]) : [];
                 } catch {
-                    console.warn('Invalid budgetItems JSON in Preferences');
+                    console.warn("Invalid budgetItems JSON in Preferences");
                     return [];
                 }
             }),

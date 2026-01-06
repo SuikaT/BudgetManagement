@@ -3,3 +3,7 @@
 }
 
 <div class="title">{{ title }}</div>
+
+@if (!hideLogout) {
+    <mat-icon class="logout" (click)="logout()">logout</mat-icon>
+}
